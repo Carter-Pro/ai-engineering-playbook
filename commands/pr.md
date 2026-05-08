@@ -8,7 +8,7 @@ Use this command to prepare the branch and open a pull request.
 2. Check issue requirement.
 3. Inspect diff.
 4. Remove accidental changes.
-5. Run relevant verification if not already done.
+5. Check verification evidence; run relevant verification only if missing, stale, or invalid.
 6. Squash checkpoint commits into one final conventional commit when appropriate.
 7. Push branch.
 8. Open PR.

@@ -8,7 +8,7 @@ Use this command after a PR exists.
 2. Check CI status.
 3. Review comments and requested changes.
 4. Apply fixes if needed.
-5. Re-run verification.
+5. Check existing verification evidence; re-run only if changes were made or evidence is stale.
 6. Decide merge eligibility.
 7. Merge only if allowed.
 8. Clean up branch.
