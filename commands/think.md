@@ -46,6 +46,9 @@ Optional:
 - `mattpocock:prototype` — only for throwaway validation of UI, state, API typing, or design assumptions.
 
 Do not default to `superpowers:writing-plans`.
+
 Do not force a skill if the project is not in Matt Pocock's domain.
+
 This command does not rewrite, copy, simulate, fake, or substitute for external skills.
+
 If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.

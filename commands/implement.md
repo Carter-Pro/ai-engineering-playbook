@@ -48,6 +48,9 @@ Optional:
 - `superpowers:using-git-worktrees` — only when explicitly allowed or project-required.
 
 Do not default to multi-agent, worktrees, or both TDD skills.
+
 Implementation must follow the approved plan and stop when scope or risk changes.
+
 This command does not rewrite, copy, simulate, fake, or substitute for external skills.
+
 If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.

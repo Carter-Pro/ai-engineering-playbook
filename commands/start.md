@@ -28,6 +28,10 @@ Optional:
 - `mattpocock:zoom-out` — only for TypeScript, JavaScript, React, or frontend codebase orientation.
 - `mattpocock:grill-with-docs` — only when project docs or domain language must challenge the model's understanding of the project.
 
-Matt Pocock skills apply only to TypeScript, JavaScript, React, frontend architecture, API typing, or type-level design/debugging/verification tasks. Do not force a Matt Pocock skill if the project is not in that domain.
+Matt Pocock skills apply only to TypeScript, JavaScript, React, frontend architecture, API typing, or type-level design/debugging/verification tasks.
+
+Do not force a Matt Pocock skill if the project is not in that domain.
+
 This command does not rewrite, copy, simulate, fake, or substitute for external skills.
+
 If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.

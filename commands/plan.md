@@ -56,6 +56,9 @@ Optional:
 - `mattpocock:prototype` — only if a throwaway prototype is needed before finalizing the plan.
 
 Do not default to `superpowers:brainstorming`. If the goal is still unclear, route back to `/think`. If project context is missing, route back to `/start`.
+
 The plan must respect existing project conventions and must not introduce new tools without approval.
+
 This command does not rewrite, copy, simulate, fake, or substitute for external skills.
+
 If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.

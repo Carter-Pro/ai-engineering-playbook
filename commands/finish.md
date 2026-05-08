@@ -58,8 +58,13 @@ Optional:
 - `superpowers:finishing-a-development-branch` — checklist-only reference.
 
 This command remains subject to this repository's stricter approval gates, safe-automerge policy, user-owned work protection, and destructive-operation restrictions.
+
 Do not auto-merge, auto-discard, auto-cleanup, or bypass approval.
+
 Do not default-run `superpowers:verification-before-completion`. Require or reference existing verification evidence instead.
+
 Do not silently discard, overwrite, or clean up user-owned work.
+
 This command does not rewrite, copy, simulate, fake, or substitute for external skills.
+
 If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.

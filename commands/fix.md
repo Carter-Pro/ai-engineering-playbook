@@ -64,6 +64,9 @@ Optional:
 - `mattpocock:zoom-out` — only when frontend or codebase context is missing.
 
 Do not run `superpowers:systematic-debugging` and `mattpocock:diagnose` by default at the same time.
+
 Do not guess-fix. Reproduce or diagnose before editing whenever possible.
+
 This command does not rewrite, copy, simulate, fake, or substitute for external skills.
+
 If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.

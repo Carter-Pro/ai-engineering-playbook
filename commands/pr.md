@@ -59,6 +59,9 @@ Optional:
 - `superpowers:requesting-code-review` — only for non-trivial, risky, broad, or reviewer-worthy changes.
 
 Do not default-run `superpowers:verification-before-completion`. Require or reference existing verification evidence instead.
+
 PRs should include verification evidence and call out remaining risks.
+
 This command does not rewrite, copy, simulate, fake, or substitute for external skills.
+
 If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.

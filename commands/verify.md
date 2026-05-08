@@ -49,5 +49,7 @@ Primary: `superpowers:verification-before-completion`
 Optional: None. Do not add Matt Pocock skills by default.
 
 Verification claims must be backed by command output or explicit inspection evidence.
+
 This command does not rewrite, copy, simulate, fake, or substitute for external skills.
+
 If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.
