@@ -1,24 +1,15 @@
-# 个人 Claude Code 全局配置标准文件包 v1
+# AI Engineering Playbook — Source Standard
 
-> 目标：建立一套可复用于任何工程的个人 AI 工程化工作流标准。  
-> 范围：全局行为规则、风险判断、权限边界、命令流程、项目接入模板。  
-> 非目标：不绑定任何具体语言、框架、仓库、业务项目或单一 AI coding agent。
+> **Version:** current (external skill dependency scheme)
+> **Deprecates:** v1 adapter scheme with local `skills/` directory
 
-本文件是 `ai-engineering-playbook` 仓库的源标准文档，不是运行时 `CLAUDE.md`。
+## 1. Repository Positioning
 
-它以 Claude Code 兼容格式作为当前事实标准，但仓库定位不应被设计成 Claude Code-only。多数 AI coding agents 可以复用或适配 `CLAUDE.md`、`commands/`、`templates/` 这类结构。
+This is a personal AI engineering workflow standard. It is project-agnostic and defines how an AI coding agent should reason, classify risk, ask for approval, create issues, manage branches, commit work, open PRs, verify changes, and handle releases.
 
-本版本是经过瘦身后的文件包标准。它不再把所有解释性内容堆进运行时 `CLAUDE.md`，而是拆成：
+It uses Claude Code compatible files as the current practical format, but is not intended to be Claude Code-only. Most AI coding agents can reuse or adapt `CLAUDE.md`, `commands/`, `dependencies/`, and `templates/`.
 
-- `README.md`：给人看的使用说明；
-- `CLAUDE.md`：给 agent 每次读取的全局硬规则；
-- `commands/*.md`：按需加载的工作流命令；
-- `templates/`：项目接入模板；
-- `docs/source-standard.md`：保存本源标准文档。
-
----
-
-# 1. 推荐目录结构
+## 2. Directory Structure
 
 ```text
 ai-engineering-playbook/
@@ -33,6 +24,8 @@ ai-engineering-playbook/
 │   ├── pr.md
 │   ├── finish.md
 │   └── release.md
+├── dependencies/
+│   └── README.md
 ├── templates/
 │   ├── project-CLAUDE.md
 │   └── CONTEXT.md
@@ -40,137 +33,66 @@ ai-engineering-playbook/
     └── source-standard.md
 ```
 
-第一轮只生成仓库内容，不安装到本机全局配置，不写入 `~/.claude/`。
+## 3. Core Scheme
 
-Review 通过并获得用户明确授权后，才可以安装到本机：
+### 3.1 Commands are workflow wrappers
 
-```text
-~/.claude/
-├── CLAUDE.md
-├── commands/
-│   ├── think.md
-│   ├── plan.md
-│   ├── implement.md
-│   ├── fix.md
-│   ├── verify.md
-│   ├── pr.md
-│   ├── finish.md
-│   └── release.md
-└── templates/
-    ├── project-CLAUDE.md
-    └── CONTEXT.md
-```
+`commands/` is the user-facing interface. Users invoke commands such as `/think`, `/plan`, `/implement`, `/fix`, `/verify`, `/pr`, `/finish`, `/release`. Users should not need to remember or invoke external skill names directly.
 
-安装前必须备份已有 `~/.claude/` 内容。
+### 3.2 External skill dependencies
 
----
+Superpowers skills and Matt Pocock skills are **external dependencies** installed separately in the user's Claude Code environment.
 
-# 2. 文件内容
+This repository does **not**:
+- vendor external skills
+- copy external skills
+- reimplement external skills
+- simulate external skills
+- fake external skills
+- create local adapters that mimic external skills
 
-下面内容可以直接拆分成真实文件。
+### 3.3 Dependency documentation
 
----
+`dependencies/README.md` documents the dependency relationship, prerequisites, installation instructions, and fallback behavior.
 
-## README.md
+### 3.4 Fallback behavior
 
-```markdown
-# AI Engineering Playbook
+If external skills are not available, `commands/` degrades to the generic safe workflow defined in `CLAUDE.md`. The agent must not simulate, fake, or reimplement missing external skills. It must report the degradation when it affects the workflow.
 
-This repository defines my personal AI engineering workflow standard for software projects.
+### 3.5 Matt Pocock skill scope
 
-It currently uses Claude Code compatible files as the practical standard, but it is not intended to be Claude Code-only. Other AI coding agents may reuse or adapt the same `CLAUDE.md`, `commands/`, and `templates/` structure.
+Matt Pocock skills apply only to: TypeScript, JavaScript, React, frontend architecture, API typing, or type-level design/debugging/verification. They do not apply to Swift, Python, CI, release, deployment, general backend, or non-frontend architecture unless the task explicitly involves the in-scope technologies.
 
-It is project-agnostic. It defines how an AI coding agent should reason, classify risk, ask for approval, create issues, manage branches, commit work, open PRs, verify changes, and handle releases.
+## 4. Deprecated: Old Adapter Scheme
 
-Project-specific details such as build commands, test commands, architecture notes, framework conventions, deployment targets, secrets, signing, and release procedures must live in the target project's `CLAUDE.md`, `CONTEXT.md`, or runbooks.
+The following is **explicitly deprecated and removed**:
 
-## Principles
+- `skills/` directory — no longer exists
+- `skills/superpowers.md` — no local Superpowers adapter
+- `skills/matt-pocock.md` — no local Matt Pocock adapter
+- Any phrasing that implies local imitation (e.g., "Superpowers-style", "Matt Pocock-inspired", "local adapter", "reimplementation")
 
-1. **Strict boundaries, lightweight execution**  
-   Low-risk tasks move quickly. Medium-risk tasks follow a standard workflow. High-risk and release tasks require approval at the right checkpoints.
-
-2. **Think before changing**  
-   Classify risk before acting. State assumptions when needed. Do not silently choose risky interpretations.
-
-3. **Simplicity first**  
-   Prefer the smallest change that satisfies the goal. Avoid speculative abstractions and unrelated refactors.
-
-4. **Surgical changes**  
-   Every changed line should trace back to the user request, approved plan, diagnosis, or verification need.
-
-5. **Goal-driven execution**  
-   Define success criteria for non-trivial work. Verify before reporting completion.
-
-## Files
-
-- `README.md` — repository overview and usage guide.
-- `CLAUDE.md` — global operating rules for runtime use.
-- `commands/*.md` — slash command or agent command workflows.
-- `templates/project-CLAUDE.md` — template for project-level agent rules.
-- `templates/CONTEXT.md` — template for project background and engineering context.
-- `docs/source-standard.md` — the full source standard used to generate this repository.
-
-## Usage Policy
-
-This repository should be reviewed before installation.
-
-First generation pass:
-
-1. Generate repository content only.
-2. Do not install to `~/.claude/`.
-3. Do not modify system-level configuration.
-4. Review `CLAUDE.md`, `commands/*.md`, and templates before using them globally.
-
-Post-review installation may copy the runtime files to `~/.claude/` only after explicit user approval and backup of existing local configuration.
-
-## Commands
-
-- `/think` — classify risk and choose workflow.
-- `/plan` — create implementation plan.
-- `/implement` — execute a clear plan.
-- `/fix` — reproduce, diagnose, and fix bugs.
-- `/verify` — verify current changes.
-- `/pr` — prepare commit and open PR.
-- `/finish` — handle CI, review, merge decision, cleanup.
-- `/release <version>` — run explicit release workflow.
-```
-
----
-
-## CLAUDE.md
-
-```markdown
-# Personal Claude Code Standard
-
-This file defines my global AI coding agent operating standard.
-
-It uses Claude Code compatible conventions as the current practical runtime format.
-
-Apply these rules across projects unless a project-level `CLAUDE.md`, `CONTEXT.md`, or runbook gives stricter or more specific instructions.
-
-Project-specific commands, architecture, framework conventions, secrets, deployment targets, and release procedures must live in project-level files.
-
-## 1. Instruction Precedence
+## 5. Instruction Precedence
 
 When instructions conflict, follow this order:
 
-1. User's explicit instruction in the current task.
-2. Project-level `CLAUDE.md`, `CONTEXT.md`, and runbooks.
-3. This personal global standard.
-4. General best practices.
+1. User's current instruction
+2. Project-level `CLAUDE.md`, `CONTEXT.md`, and runbooks
+3. Invoked command file
+4. This personal global standard
+5. Installed external skills (Superpowers, Matt Pocock)
+6. General best practices
 
-If a lower-level instruction appears unsafe or conflicts with a higher-level instruction, stop and ask.
+External skills must never override user instructions, project rules, invoked command rules, safety boundaries, or this repository's rules.
 
-## 2. Communication
+## 6. Communication
 
 - Communicate with the user in Chinese by default.
 - Use English for code, commit messages, branch names, PR titles, PR descriptions, issue titles, issue descriptions, release notes, and technical identifiers unless the project already uses Chinese conventions.
 - Preserve the repository's existing language style when editing files.
 - Do not translate code identifiers, API names, CLI commands, logs, error messages, or protocol-specific text.
 
-## 3. Operating Mode
-
-Default behavior:
+## 7. Operating Mode
 
 1. Understand the user's goal.
 2. Classify task risk before taking action.
@@ -179,239 +101,68 @@ Default behavior:
 5. Verify before reporting completion.
 6. Ask for approval only at high-risk decision points.
 
-Do not ask for confirmation for routine low-risk or medium-risk steps if the rules allow automatic execution.
+Do not ask for routine low-risk or medium-risk steps. Do ask before irreversible, high-risk, ambiguous, release, security, data, or production-impacting actions.
 
-Do ask before irreversible, high-risk, ambiguous, release, security, data, or production-impacting actions.
+## 8. Risk Classification
 
-## 4. Repository Safety
-
-Protect the user's work and repository state.
-
-Before non-trivial edits, check branch and working tree state when tools are available.
-
-Do not:
-
-- Overwrite, revert, or discard user changes unless explicitly asked.
-- Run destructive Git commands such as `reset --hard`, `clean -fd`, forced checkout, or history rewrite without approval.
-- Force-push unless working on a branch created for the current task and the action is clearly required.
-- Commit user-owned unrelated changes.
-
-If unexpected uncommitted changes exist, treat them as user-owned and avoid touching them.
-
-## 5. Risk Classification
-
-Classify every task as one of:
-
-- `LOW`
-- `MEDIUM`
-- `HIGH`
-- `RELEASE`
-
-When useful, start with:
-
-```text
-Risk:
-Workflow:
-Reason:
-Need approval:
-```
-
-For very small obvious tasks, classification may be implicit, but these rules still apply.
+Classify every task: `LOW`, `MEDIUM`, `HIGH`, or `RELEASE`.
 
 ### LOW
+Safe, local, unlikely to affect production. Examples: docs, comments, formatting, non-production config, minor test changes, small CI fixes not touching release/deploy/secrets/signing.
 
-Safe, local, and unlikely to affect production behavior.
-
-Examples:
-
-- Documentation edits.
-- Comments or typo fixes.
-- Formatting-only changes.
-- Non-production config cleanup.
-- Minor test-only changes.
-- Small CI fixes that do not affect release, deploy, signing, secrets, package distribution, or production runtime.
-
-Allowed automation:
-
-- Modify files.
-- Run checks.
-- Commit.
-- Open PR.
-- Auto-merge only if all safe-auto-merge conditions are met.
-
-Issue: optional.
+Allowed: modify, check, commit, open PR, auto-merge only if safe-automerge conditions are met. Issue: optional.
 
 ### MEDIUM
+Changes production code, scoped and reversible. Examples: features, bug fixes with clear scope, limited refactors, test coverage, build/CI changes not touching release/deploy/secrets/signing.
 
-Changes production code or normal developer workflow, but scoped and reversible.
-
-Examples:
-
-- Feature implementation.
-- Bug fix with clear scope.
-- Limited refactor.
-- Test coverage for production behavior.
-- Build or CI changes that affect normal validation but not release/deploy/secrets/signing.
-
-Allowed automation:
-
-- Create issue.
-- Create branch.
-- Implement.
-- Run verification.
-- Commit.
-- Open PR.
-
-Issue: required.
-
-Approval:
-
-- Not required for routine implementation.
-- Required if scope expands or risk increases.
-- Required before merge.
+Allowed: issue, branch, implement, verify, commit, open PR. Issue: required. Approval: required if scope expands or risk increases; always required before merge.
 
 ### HIGH
+May affect architecture, data, security, privacy, sensitive config, irreversible operations, external integrations, or production behavior at scale. Examples: auth, secrets, DB migrations, data deletion/backfill, major architecture, large refactors, broad dependency upgrades, deployment, release, production infrastructure, CI/CD involving deploy/release/secrets/signing/package/notarization.
 
-May affect architecture, data, security, privacy, sensitive configuration, irreversible operations, external integrations, or production behavior at scale.
-
-Examples:
-
-- Authentication or authorization changes.
-- Secrets, tokens, credentials, signing, notarization, permissions.
-- Database schema or migration changes.
-- Data deletion, backfill, or irreversible mutation.
-- Major architecture changes.
-- Large refactors.
-- Broad dependency upgrades.
-- Deployment, release, package distribution, or production infrastructure changes.
-- CI/CD changes involving deploy, release, signing, secrets, package, artifact publishing, or notarization.
-
-Allowed automation:
-
-- Investigate.
-- Draft plan.
-- Create issue.
-- Create branch if appropriate.
-- Implement only after required approval.
-
-Issue: required.
-
-Approval required before implementation when risk is material, and always before merge.
+Allowed: investigate, draft plan, issue, branch if appropriate, implement only after approval. Issue: required. Approval: required before implementation when material, always before merge.
 
 ### RELEASE
+Publishing, tagging, packaging, deploying, distributing, releasing a version. Examples: `/release 1.2.3`, create tag, publish GitHub Release, deploy, sign/notarize, publish package.
 
-Publishing, tagging, packaging, deploying, distributing, or releasing a version.
+Rules: explicit version required, explicit authorization required, follow project release runbook, stop on any anomaly.
 
-Examples:
+## 9. Risk Escalation
 
-- `/release 1.2.3`
-- `发布 1.2.3`
-- Create tag.
-- Publish GitHub Release.
-- Deploy to production.
-- Sign or notarize artifacts.
-- Publish package.
+- Unsure `LOW` or `MEDIUM` → `MEDIUM`.
+- Unsure `MEDIUM` or `HIGH` → `HIGH`.
+- Publishing, tagging, deploying, signing, notarization, package distribution, production rollout → `RELEASE` unless only planning or documentation.
 
-Rules:
+## 10. Approval Gates
 
-- Explicit version or release target required.
-- Explicit user authorization required.
-- Follow the project's release runbook.
-- Stop on any anomaly.
+**Ask before:** release, deploy, publish, tag, package distribution, signing, notarization; secrets, credentials, tokens, permissions, auth; data deletion, migration, backfill, irreversible mutation; large architecture changes; broad dependency upgrades; merge of MEDIUM/HIGH/RELEASE PRs; unclear blast radius; project-marked approval-required operations.
 
-## 6. Risk Escalation
+**Do not ask before:** reading files, searching code, creating MEDIUM/HIGH issues, creating branches by rules, editing low-risk files, running documented local verification, opening PRs.
 
-When risk is uncertain, escalate upward:
+## 11. Repository Safety
 
-- Unsure between `LOW` and `MEDIUM` → `MEDIUM`.
-- Unsure between `MEDIUM` and `HIGH` → `HIGH`.
-- Publishing, tagging, deploying, signing, notarization, package distribution, or production rollout → `RELEASE`, unless only planning or documentation.
+Do not: overwrite/revert/discard user changes unless asked; run destructive git commands without approval; force-push unless on task-created branch and clearly required; commit user-owned unrelated changes.
 
-## 7. Approval Gates
+Unexpected uncommitted changes are user-owned — avoid touching them.
 
-Ask before:
+## 12. Simplicity and Surgical Changes
 
-- Release, deploy, publish, tag, package distribution, signing, notarization.
-- Secrets, credentials, tokens, permissions, authentication, authorization.
-- Data deletion, migration, backfill, or irreversible mutation.
-- Large architecture changes.
-- Broad dependency upgrades.
-- Merge of any `MEDIUM`, `HIGH`, or `RELEASE` PR.
-- Any action with unclear blast radius.
-- Any operation project rules mark as approval-required.
+Prefer the smallest change. Do not add: generic frameworks for one use case, plugin systems unless requested, config surfaces unless needed, new deps without justification, new build tools/linters/formatters without approval, broad abstractions before two real uses, large refactors as part of unrelated work.
 
-Do not ask before:
+Every changed line must trace to: user request, approved plan, bug diagnosis, test/verification need, or required formatting. Avoid unrelated cleanup, formatting churn, import reordering, renames, and opportunistic refactors.
 
-- Reading files.
-- Searching code.
-- Creating an issue for `MEDIUM` or `HIGH` work.
-- Creating a branch according to branch rules.
-- Editing low-risk files.
-- Running documented local verification commands.
-- Opening a PR.
+## 13. Issue Rules
 
-## 8. Confusion Management
+- `LOW`: optional
+- `MEDIUM`: required
+- `HIGH`: required
+- `RELEASE`: follow release runbook; normal issue optional
 
-Do not hide uncertainty.
+Issue content: problem/goal, scope, success criteria, risk classification, verification plan.
 
-Proceed with assumptions only when the choice is low-risk and reversible.
+## 14. Branch Rules
 
-Ask when ambiguity affects correctness, product behavior, architecture, security, data, release, deployment, or user-visible behavior.
-
-When proceeding with assumptions, state them briefly.
-
-## 9. Simplicity and Surgical Changes
-
-Prefer the smallest change that satisfies the verified goal.
-
-Do not add:
-
-- Generic frameworks for one use case.
-- Plugin systems unless requested.
-- Configuration surfaces unless needed now.
-- New dependencies without clear justification.
-- New build tools, package managers, formatters, linters, or project conventions without approval.
-- Broad abstractions before at least two real uses.
-- Large refactors as part of unrelated work.
-
-Every changed line must trace directly to one of:
-
-- User request.
-- Approved plan.
-- Bug reproduction or diagnosis.
-- Test or verification need.
-- Required formatting/linting.
-
-Avoid unrelated cleanup, formatting churn, unrelated import reordering, unrelated renames, and opportunistic refactors.
-
-## 10. Goal-Driven Execution
-
-For non-trivial tasks, define:
-
-```text
-Success criteria:
-Verification:
-Evidence:
 ```
-
-Do not report completion only because code changed.
-
-Report completion only when the intended change is implemented, relevant verification passed or failures are explained, and remaining risks are disclosed.
-
-## 11. Issue Rules
-
-- `LOW`: issue optional.
-- `MEDIUM`: issue required.
-- `HIGH`: issue required.
-- `RELEASE`: follow release runbook; normal issue optional unless project requires it.
-
-Issue content should include problem or goal, scope, success criteria, risk classification, and verification plan.
-
-## 12. Branch Rules
-
-Use:
-
-```text
 docs/<short-description>
 ci/<short-description>
 chore/<short-description>
@@ -421,857 +172,80 @@ refactor/<issue-number>-<short-description>
 release/<version>
 ```
 
-Rules:
+LOW tasks may use `docs/`, `ci/`, or `chore/` without issue number. MEDIUM and HIGH tasks include issue number. Release branches use `release/<version>`.
 
-- `LOW` documentation/config tasks may use `docs/`, `ci/`, or `chore/` without issue number.
-- `MEDIUM` and `HIGH` tasks should include the issue number.
-- Release branches must use `release/<version>`.
+## 15. Commit Rules
 
-## 13. Commit Rules
+Preferred: one final conventional commit per feature/fix. Checkpoint commits allowed, squashed before PR unless project says otherwise.
 
-The agent may commit automatically.
+Conventional commits: `feat:`, `fix:`, `refactor:`, `test:`, `docs:`, `ci:`, `chore:`, `release:`.
 
-Preferred final state:
+Do not commit: secrets, unexpected generated artifacts, local-only config, debug prints, unrelated changes, user-owned changes outside the task.
 
-- One feature or fix ends as one final commit.
-- Intermediate checkpoint commits are allowed.
-- Before PR, squash checkpoint commits into one final conventional commit unless the project says otherwise.
+## 16. Bug Fixing Rules
 
-Use conventional commits:
+Diagnosis before repair: reproduce or characterize, identify likely cause, make smallest fix, add regression coverage when practical, verify.
 
-```text
-feat: add user-visible feature
-fix: resolve specific bug
-refactor: simplify implementation without behavior change
-test: add or update tests
-docs: update documentation
-ci: update CI workflow
-chore: maintenance task
-release: prepare version x.y.z
-```
+Do not guess and patch blindly. If reproduction fails, report: observed, tried, likely causes, need from user.
 
-Do not commit secrets, unexpected generated artifacts, local-only config, debug prints, unrelated changes, or user-owned changes outside the task.
+For environment-dependent bugs: prefer dependency injection, fakes, mocks, or integration-test separation.
 
-## 14. Bug Fixing Rules
+## 17. Verification Rules
 
-Bug fixes must follow diagnosis before repair:
+Use project's documented verification commands. Order: targeted tests → lint/typecheck/format → full test suite → package/build checks.
 
-1. Reproduce or characterize the failure.
-2. Identify the likely cause.
-3. Make the smallest fix.
-4. Add or update regression coverage when practical.
-5. Verify the fix.
-
-Do not guess and patch blindly.
-
-If reproduction fails, report:
-
-```text
-Reproduction failed.
-Observed:
-Tried:
-Likely causes:
-Need from user:
-```
-
-For environment-dependent bugs, prefer dependency injection, fakes, mocks, or integration-test separation over relying on local machine or CI state.
-
-## 15. Verification Rules
-
-Use the project's documented verification commands.
-
-Preferred order:
-
-1. Targeted tests for changed behavior.
-2. Lint/typecheck/format checks if relevant.
-3. Full project test or CI-equivalent command when appropriate.
-
-If verification commands are missing:
-
-- Infer from existing files only when obvious.
-- Do not introduce new tooling without approval.
-- Ask if verification is unclear for medium/high-risk work.
-
-When verification fails, determine whether the failure is caused by current changes or is pre-existing.
+If commands are missing: infer from existing files when obvious, do not introduce new tooling without approval, ask for medium/high-risk work.
 
 Never claim verification passed unless it actually ran and passed.
 
-## 16. PR Rules
+## 18. PR Rules
 
-The agent may open PRs automatically.
+Before opening PR: inspect diff, check branch name, check issue requirement, squash checkpoint commits, run verification, prepare PR description.
 
-Before opening PR:
+PR template: `## Summary`, `## Risk`, `## Verification`, `## Notes`.
 
-- Inspect diff.
-- Ensure branch name is valid.
-- Ensure issue exists if required.
-- Squash checkpoint commits into one final conventional commit when needed.
-- Run relevant verification.
-- Prepare PR description with scope, risk, and evidence.
+## 19. Auto-Merge Rules
 
-PR description:
+Auto-merge is conservative. Allowed only when: LOW risk, no production behavior change, no release/deploy/secrets/signing/package/notarization changes, CI passes, `safe-automerge` label, risk and verification in PR description.
 
-```markdown
-## Summary
+Not allowed: MEDIUM/HIGH/RELEASE, production behavior changes, features, refactors with behavior risk, deploy/release/secrets/signing/package/notarization changes.
 
-## Risk
+## 20. Release Rules
 
-## Verification
+Default: do not release automatically. Release starts only with explicit version and explicit authorization. No version → no release. No authorization → no release. No runbook → ask. Stop on any anomaly.
 
-## Notes
-```
+Before creating tags, pushing release commits, publishing artifacts, deploying, signing, notarizing, or distributing packages: stop and confirm explicit user authorization.
 
-## 17. Auto-Merge Rules
+Reading the runbook, checking version state, preparing notes, and running verification may proceed. Actual release actions require explicit approval.
 
-Auto-merge is intentionally conservative.
-
-Allowed only when all are true:
-
-- Risk is `LOW`.
-- Does not modify production code behavior.
-- Does not touch release, deploy, secrets, signing, package distribution, notarization, or production infrastructure.
-- CI passes.
-- PR has `safe-automerge` label or project-equivalent marker.
-- PR description includes risk and verification evidence.
-
-Not allowed for:
-
-- `MEDIUM`, `HIGH`, or `RELEASE` tasks.
-- Production behavior changes.
-- Runtime bug fixes unless explicitly approved.
-- Features.
-- Refactors with behavior risk.
-- Deploy/release/secrets/signing/package/notarization changes.
-
-Ordinary CI maintenance may be low-risk and auto-merge eligible. Release/deploy/secrets/signing/package/notarization CI/CD changes require human approval.
-
-## 18. Release Rules
-
-Default: do not release automatically.
-
-Release workflow starts only when the user explicitly provides a version or release target, such as:
-
-```text
-/release 1.2.3
-发布 1.2.3
-release version 1.2.3
-```
-
-Rules:
-
-- No explicit version, no release.
-- No explicit authorization, no release.
-- No release runbook, ask before proceeding.
-- Stop on any anomaly.
-
-Before release, verify according to the project runbook.
-
-Any unexpected failure must stop the workflow and ask the user.
-
-## 19. Command Routing
-
-Use slash commands as workflow entry points:
+## 21. Command Routing
 
 - `/think` — classify risk and choose workflow.
-- `/plan` — prepare implementation plan.
+- `/plan` — create implementation plan for MEDIUM/HIGH work.
 - `/implement` — execute an approved or obvious plan.
 - `/fix` — debug and fix a bug.
 - `/verify` — verify current changes.
 - `/pr` — prepare commit and open PR.
 - `/finish` — handle CI/review/merge/cleanup.
-- `/release <version>` — run release workflow.
-```
+- `/release <version>` — run explicit release workflow.
 
----
+## 22. External Skills in Commands
 
-## commands/think.md
+When running a command: read the command file first, prioritize using installed external skills when available, degrade to generic safe workflow if unavailable, do not claim this repo implements external skills.
 
-```markdown
-# /think
+External skills must not trigger: automatic dependency installation, automatic merge, automatic release, configuration overwriting, destructive operations without explicit user approval.
 
-Use this command to understand a task before planning or implementation.
+## 23. Installation Strategy
 
-## Process
+This repository is the source of truth. Do not install to `~/.claude/` until reviewed and approved.
 
-1. Restate the user's goal briefly.
-2. Classify risk as `LOW`, `MEDIUM`, `HIGH`, or `RELEASE`.
-3. Explain the classification in one or two sentences.
-4. Identify assumptions.
-5. Identify whether an issue is required.
-6. Identify whether approval is required before implementation.
-7. Recommend the next command.
+Installation flow: generate/update repo → commit → push → review → back up existing `~/.claude/` → install selected files.
 
-## Risk Rules
+Target: `~/.claude/CLAUDE.md`, `~/.claude/commands/`, `~/.claude/dependencies/`, `~/.claude/templates/`.
 
-- Unsure between `LOW` and `MEDIUM` → `MEDIUM`.
-- Unsure between `MEDIUM` and `HIGH` → `HIGH`.
-- Release/deploy/publish/tag/sign/package/notarization → `RELEASE` unless only discussing.
+Before installation: `cp -R ~/.claude ~/.claude.backup.$(date +%Y%m%d-%H%M%S)`. Do not overwrite user changes without review.
 
-## Output
+## 24. Evolution History
 
-```text
-Goal:
-Risk:
-Workflow:
-Reason:
-Issue required:
-Approval required:
-Assumptions:
-Next:
-```
-
-Ask only if ambiguity affects correctness, architecture, data, security, release, deployment, or user-visible behavior.
-```
-
----
-
-## commands/plan.md
-
-```markdown
-# /plan
-
-Use this command to create an implementation plan for medium-risk or high-risk work.
-
-Do not modify code unless the user explicitly asks for planning plus implementation and the task does not require an approval gate.
-
-## Process
-
-1. Read project-level instructions.
-2. Inspect relevant files.
-3. Understand current behavior.
-4. Define scope and non-goals.
-5. Define success criteria.
-6. Define verification strategy.
-7. Identify risks and approval gates.
-8. Propose implementation steps.
-
-## Output
-
-```markdown
-## Goal
-
-## Risk
-
-## Scope
-
-## Non-Goals
-
-## Plan
-
-## Success Criteria
-
-## Verification
-
-## Approval Gates
-
-## Open Questions
-```
-
-## Rules
-
-- Keep the plan proportional to task risk.
-- Do not invent requirements.
-- Do not introduce new dependencies without justification.
-- Do not propose broad refactors unless necessary.
-- For high-risk work, stop after the plan and wait for approval.
-```
-
----
-
-## commands/implement.md
-
-```markdown
-# /implement
-
-Use this command to execute a clear plan or an obvious low-risk task.
-
-## Process
-
-1. Confirm risk classification.
-2. Check branch and working tree state when possible.
-3. Ensure required issue and branch exist.
-4. Review the plan or infer a minimal safe plan.
-5. Make surgical changes.
-6. Run targeted verification during implementation.
-7. Inspect diff.
-8. Create checkpoint commit if useful.
-9. Report progress and evidence.
-
-## Rules
-
-- Make the smallest correct change.
-- Do not do unrelated cleanup.
-- Do not add speculative abstractions.
-- Do not change public behavior beyond the task scope.
-- Do not modify release/deploy/secrets/signing/package files unless the task explicitly covers them and approval gates are satisfied.
-
-## If Scope Expands
-
-```text
-Scope changed.
-Original scope:
-New finding:
-Risk impact:
-Recommended next step:
-```
-
-Ask for approval if the task becomes high-risk.
-```
-
----
-
-## commands/fix.md
-
-```markdown
-# /fix
-
-Use this command for bug fixes.
-
-Bug fixing requires diagnosis before repair.
-
-## Process
-
-1. Understand the reported bug.
-2. Reproduce or characterize the failure.
-3. Identify expected vs actual behavior.
-4. Locate likely cause.
-5. Make the smallest fix.
-6. Add or update regression coverage when practical.
-7. Verify the fix.
-8. Prepare issue/branch/commit/PR according to risk.
-
-## Rules
-
-Do not patch blindly.
-
-If reproduction is not possible, report:
-
-```text
-Reproduction failed.
-Observed:
-Tried:
-Likely causes:
-Need from user:
-```
-
-For environment-dependent bugs:
-
-- Prefer dependency injection or adapters.
-- Use fakes/mocks for unit tests.
-- Move real external dependency checks to integration tests.
-- Do not make unit tests depend on local machine state.
-
-## Output
-
-```markdown
-## Diagnosis
-
-## Fix
-
-## Regression Coverage
-
-## Verification
-
-## Remaining Risk
-```
-```
-
----
-
-## commands/verify.md
-
-```markdown
-# /verify
-
-Use this command to verify the current changes.
-
-## Process
-
-1. Inspect changed files.
-2. Identify relevant project verification commands.
-3. Run targeted checks first.
-4. Run broader checks when appropriate.
-5. Determine whether failures are caused by current changes.
-6. Report evidence.
-
-## Verification Order
-
-1. Targeted tests.
-2. Lint/typecheck/format checks.
-3. Full test suite or CI-equivalent command.
-4. Package/build checks if relevant.
-
-## If Commands Are Missing
-
-- Infer only from existing project files when obvious.
-- Do not introduce new verification tooling without approval.
-- Ask for clarification for medium/high-risk work.
-
-## Output
-
-```markdown
-## Changed Scope
-
-## Commands Run
-
-## Results
-
-## Failures
-
-## Assessment
-
-## Next Step
-```
-
-Never claim success without evidence.
-```
-
----
-
-## commands/pr.md
-
-```markdown
-# /pr
-
-Use this command to prepare the branch and open a pull request.
-
-## Process
-
-1. Check current branch.
-2. Check issue requirement.
-3. Inspect diff.
-4. Remove accidental changes.
-5. Run relevant verification if not already done.
-6. Squash checkpoint commits into one final conventional commit when appropriate.
-7. Push branch.
-8. Open PR.
-9. Write PR description with summary, risk, and verification.
-
-## Final Commit
-
-Prefer one final conventional commit per feature or fix.
-
-Examples:
-
-```text
-feat: add ...
-fix: resolve ...
-refactor: simplify ...
-test: add ...
-docs: update ...
-ci: update ...
-chore: ...
-```
-
-## PR Template
-
-```markdown
-## Summary
-
-## Risk
-
-## Verification
-
-## Notes
-```
-
-## Rules
-
-- Do not open PR with unrelated changes.
-- Do not include user-owned uncommitted changes unless explicitly part of the task.
-- Do not hide failing checks.
-- Do not mark high-risk work as safe.
-- Do not request auto-merge unless the PR satisfies safe-auto-merge rules.
-```
-
----
-
-## commands/finish.md
-
-```markdown
-# /finish
-
-Use this command after a PR exists.
-
-## Process
-
-1. Check PR status.
-2. Check CI status.
-3. Review comments and requested changes.
-4. Apply fixes if needed.
-5. Re-run verification.
-6. Decide merge eligibility.
-7. Merge only if allowed.
-8. Clean up branch.
-9. Update or close issue.
-10. Report final status.
-
-## Merge Rules
-
-Auto-merge is allowed only when all are true:
-
-- Risk is `LOW`.
-- No production behavior change.
-- No release/deploy/secrets/signing/package/notarization changes.
-- CI passes.
-- PR has `safe-automerge` label or project-equivalent marker.
-- PR description includes risk and verification evidence.
-
-Human approval is required for:
-
-- All `MEDIUM` changes before merge.
-- All `HIGH` changes.
-- All `RELEASE` changes.
-- Any deploy/release/secrets/signing/package/notarization change.
-
-## Output
-
-```markdown
-## PR Status
-
-## CI Status
-
-## Review Status
-
-## Merge Decision
-
-## Cleanup
-
-## Final Notes
-```
-```
-
----
-
-## commands/release.md
-
-```markdown
-# /release
-
-Use this command only for explicit release requests.
-
-A release requires an explicit version or release target from the user.
-
-Examples:
-
-```text
-/release 1.2.3
-发布 1.2.3
-release version 1.2.3
-```
-
-## Hard Rules
-
-- No explicit version, no release.
-- No explicit authorization, no release.
-- No project release runbook, ask before proceeding.
-- Stop on any anomaly.
-- Never guess version numbers.
-- Never bypass failing checks.
-
-## Process
-
-1. Confirm version or release target.
-2. Read project release runbook.
-3. Confirm current branch and clean working tree.
-4. Check existing tags and version state.
-5. Check changelog or release notes requirements.
-6. Run required tests and CI-equivalent checks.
-7. Update version files if required.
-8. Create release commit if required.
-9. Create tag if required.
-10. Push according to runbook.
-11. Monitor release workflow.
-12. Publish release artifacts only as specified by runbook.
-13. Report final release status.
-
-## Stop Conditions
-
-Stop and ask if:
-
-- Version already exists.
-- Working tree is dirty unexpectedly.
-- Current branch is wrong.
-- Tests fail.
-- CI fails.
-- Changelog is missing.
-- Signing/notarization/package step fails.
-- Release workflow behaves unexpectedly.
-- Runbook is incomplete.
-
-## Output
-
-```markdown
-## Release Target
-
-## Preflight
-
-## Changes
-
-## Verification
-
-## Release Actions
-
-## Result
-
-## Follow-Up
-```
-```
-
----
-
-## templates/project-CLAUDE.md
-
-```markdown
-# Project Claude Code Instructions
-
-This file contains project-specific instructions for Claude Code.
-
-It extends the personal global Claude Code standard. If there is a conflict, follow the stricter rule.
-
-## Project Overview
-
-<!-- Describe what this project does. -->
-
-## Tech Stack
-
-<!-- Languages, frameworks, package managers, platforms. -->
-
-## Repository Structure
-
-```text
-<!-- Add important directories and their purpose. -->
-```
-
-## Common Commands
-
-Use these project-defined commands for verification and development:
-
-```bash
-# Build
-# Test
-# Lint
-# Format
-# CI-equivalent check
-# Package
-```
-
-## Workflow Entrypoints
-
-Claude Code commands live in:
-
-```text
-.claude/commands/
-```
-
-Recommended flow:
-
-- `/think` for task classification.
-- `/plan` for medium/high-risk planning.
-- `/implement` for implementation.
-- `/fix` for bug fixes.
-- `/verify` for verification.
-- `/pr` for PR creation.
-- `/finish` for PR completion.
-- `/release <version>` for explicit releases.
-
-## Risk Notes
-
-High-risk areas in this project:
-
-- <!-- e.g. auth, payment, database migrations, signing, deployment -->
-
-Files or directories requiring extra care:
-
-```text
-<!-- Add paths -->
-```
-
-## Testing Policy
-
-<!-- Explain unit/integration/e2e split and what must be run before PR. -->
-
-## CI/CD Policy
-
-<!-- Explain CI workflows and which changes require approval. -->
-
-## Release Policy
-
-Default: do not release automatically.
-
-Release runbook:
-
-```text
-docs/runbooks/release.md
-```
-
-Claude Code may run release only when the user explicitly provides a version or release target.
-
-## Dependency Policy
-
-<!-- Explain when dependencies can be added or upgraded. -->
-
-## Code Style
-
-<!-- Project-specific naming, formatting, architecture, and style rules. -->
-
-## Known Pitfalls
-
-<!-- Document flaky tests, external tools, local environment requirements, CI differences. -->
-```
-
----
-
-## templates/CONTEXT.md
-
-```markdown
-# Project Context
-
-This file gives Claude Code stable project context.
-
-Keep it concise and current. Do not duplicate long documentation.
-
-## What This Project Is
-
-<!-- One or two paragraphs describing the product or library. -->
-
-## Users and Use Cases
-
-<!-- Who uses it and what they expect. -->
-
-## Current Priorities
-
-<!-- Current engineering/product priorities. -->
-
-## Architecture Summary
-
-<!-- Brief architecture overview. -->
-
-## Key Modules
-
-```text
-<!-- path/to/module - purpose -->
-```
-
-## Data Flow
-
-<!-- Briefly explain important data/control flow. -->
-
-## External Dependencies
-
-<!-- External services, CLIs, devices, APIs, credentials, signing, deployment targets. -->
-
-## Testing Strategy
-
-<!-- Unit, integration, e2e, manual verification. -->
-
-## Release Strategy
-
-<!-- How releases are prepared, tagged, packaged, deployed, or published. -->
-
-## Operational Risks
-
-<!-- Security, data loss, migration, device access, signing, CI flakiness, production risks. -->
-
-## Current Known Issues
-
-<!-- Known bugs, flaky tests, TODOs, migration status. -->
-
-## Useful Links
-
-<!-- Docs, dashboards, CI, releases, issue trackers. -->
-```
-
----
-
-# 3. 最终瘦身审查结论
-
-## 3.1 主要调整
-
-相比 v3，本版做了以下瘦身：
-
-1. **删除重复解释**  
-   保留规则，减少"为什么这样做"的说明。
-
-2. **合并相近章节**  
-   将 `Simplicity First` 和 `Surgical Changes` 合并为一个章节，减少模型在相似规则之间来回判断。
-
-3. **压缩 command 文档**  
-   每个 command 只保留流程、规则和输出格式，去掉解释性语言。
-
-4. **明确 `CLAUDE.md` 是运行规则，不是说明书**  
-   现在全局 `CLAUDE.md` 更适合作为每个项目的根规则文件。
-
-5. **保留保守 auto-merge 策略**  
-   仍然只允许 `LOW` 且满足全部条件的 PR 自动合并。
-
-## 3.2 为什么不继续压缩
-
-不建议再把 `CLAUDE.md` 压到几十行，因为你的目标不是"给 Claude 一个风格提示"，而是建立可复用的工程工作流。
-
-这份标准需要稳定约束：
-
-- 风险判断；
-- approval gate；
-- issue / branch / commit / PR；
-- bug 修复纪律；
-- verification；
-- release 禁止条件；
-- auto-merge 边界。
-
-这些都属于全局硬规则，继续压缩会损失判断稳定性。
-
-## 3.3 仓库生成与安装建议
-
-在真实使用时，不要把整个合订本文档直接作为运行时 `CLAUDE.md`。
-
-第一轮应该只生成并提交 `ai-engineering-playbook` 仓库内容：
-
-```text
-README.md
-CLAUDE.md
-commands/think.md
-commands/plan.md
-commands/implement.md
-commands/fix.md
-commands/verify.md
-commands/pr.md
-commands/finish.md
-commands/release.md
-templates/project-CLAUDE.md
-templates/CONTEXT.md
-docs/source-standard.md
-```
-
-第一轮不得写入或覆盖 `~/.claude/`。
-
-Review 通过并获得用户明确授权后，才可以安装到本机：
-
-```text
-~/.claude/CLAUDE.md
-~/.claude/commands/think.md
-~/.claude/commands/plan.md
-~/.claude/commands/implement.md
-~/.claude/commands/fix.md
-~/.claude/commands/verify.md
-~/.claude/commands/pr.md
-~/.claude/commands/finish.md
-~/.claude/commands/release.md
-~/.claude/templates/project-CLAUDE.md
-~/.claude/templates/CONTEXT.md
-```
-
-安装前必须备份已有 `~/.claude/` 内容。
-
-这样 agent 日常读取的是短 `CLAUDE.md` + 当前 command + 项目上下文，而不是整个标准合集。
-
-## 3.4 当前版本判断
-
-本版已经达到第一阶段目标：
-
-- 全局化，不绑定具体工程；
-- 使用 Claude Code 兼容格式，但不把仓库定位限制为 Claude Code-only；
-- 足够明确，不依赖模型自由发挥；
-- 足够轻，不把设计解释塞进运行规则；
-- 可直接拆成 `ai-engineering-playbook` 仓库文件；
-- 第一轮只生成仓库内容，不安装到本机；
+- **v1** — original combined standard with local skill adapters and `skills/` directory
+- **current** — external skill dependency scheme: `commands/` are wrappers, Superpowers and Matt Pocock are external dependencies, `dependencies/` documents the relationship, no local adapters, no `skills/` directory

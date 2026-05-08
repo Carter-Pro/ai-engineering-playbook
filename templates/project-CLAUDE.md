@@ -18,6 +18,15 @@ It extends the personal global Claude Code standard. If there is a conflict, fol
 <!-- Add important directories and their purpose. -->
 ```
 
+## Rule Priority
+
+Project-level rules are more specific than the personal global standard and take precedence. However, project-level rules must not bypass:
+
+- Explicit user instructions
+- Safety boundaries
+- Approval gates
+- Release gates
+
 ## Common Commands
 
 Use these project-defined commands for verification and development:
@@ -93,3 +102,11 @@ Claude Code may run release only when the user explicitly provides a version or 
 ## Known Pitfalls
 
 <!-- Document flaky tests, external tools, local environment requirements, CI differences. -->
+
+## External Skill Dependencies
+
+This project may rely on external skills already installed in the user's Claude Code environment.
+
+Do not vendor, copy, reimplement, simulate, or fake external skills in this project.
+
+If external skills are unavailable, fall back to the generic safe workflow defined by the global standard and this project's local rules.

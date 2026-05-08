@@ -6,19 +6,20 @@ This directory documents the external skill dependencies that `commands/` expect
 
 ### Superpowers
 
-Superpowers-style agent skills provide methodology for structured thinking, planning, debugging, verification, and release discipline.
+Superpowers skills are external skills installed separately in the user's Claude Code environment. They provide methodology for structured thinking, planning, debugging, verification, and release discipline.
 
 - **Source:** external, installed separately in the user's Claude Code environment
-- **Status:** this repository does not vendor, copy, or reimplement Superpowers skills
-- **Usage:** `commands/` will use Superpowers when available
+- **Status:** this repository does not vendor, copy, reimplement, simulate, or fake Superpowers skills
+- **Usage:** `commands/` will use installed Superpowers skills when available
 
 ### Matt Pocock Skills
 
-Matt Pocock-inspired skills provide methodology for TypeScript correctness, type-driven design, and code quality.
+Matt Pocock skills are external skills installed separately in the user's Claude Code environment. They provide methodology for TypeScript correctness, type-driven design, and code quality.
 
 - **Source:** external, installed separately in the user's Claude Code environment
-- **Status:** this repository does not vendor, copy, or reimplement Matt Pocock skills
-- **Usage:** `commands/` will use Matt Pocock skills when the task involves TypeScript, JavaScript, React, frontend architecture, or type-level design
+- **Status:** this repository does not vendor, copy, reimplement, simulate, or fake Matt Pocock skills
+- **Scope:** TypeScript, JavaScript, React, frontend architecture, API typing, or type-level design/debugging/verification only
+- **Usage:** `commands/` will use installed Matt Pocock skills when applicable within scope
 
 ## Design Principle
 

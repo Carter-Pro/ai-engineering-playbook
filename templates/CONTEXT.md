@@ -32,7 +32,8 @@ Keep it concise and current. Do not duplicate long documentation.
 
 ## External Dependencies
 
-<!-- External services, CLIs, devices, APIs, credentials, signing, deployment targets. -->
+<!-- External services, CLIs, devices, APIs, credentials requirements, signing, deployment targets.
+     Include: service names, endpoints, auth requirements, rate limits, required CLI versions. -->
 
 ## Testing Strategy
 
@@ -44,7 +45,8 @@ Keep it concise and current. Do not duplicate long documentation.
 
 ## Operational Risks
 
-<!-- Security, data loss, migration, device access, signing, CI flakiness, production risks. -->
+<!-- Security, data loss, migration, device access, signing, CI flakiness, production risks.
+     Include: known flaky tests, CI vs local differences, deployment hazards, rollback strategy. -->
 
 ## Current Known Issues
 

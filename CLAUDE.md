@@ -12,12 +12,16 @@ Project-specific commands, architecture, framework conventions, secrets, deploym
 
 When instructions conflict, follow this order:
 
-1. User's explicit instruction in the current task.
-2. Project-level `CLAUDE.md`, `CONTEXT.md`, and runbooks.
-3. This personal global standard.
-4. General best practices.
+1. User's current instruction
+2. Project-level `CLAUDE.md`, `CONTEXT.md`, and runbooks
+3. Invoked command file
+4. This personal global standard
+5. Installed external skills (Superpowers, Matt Pocock)
+6. General best practices
 
 If a lower-level instruction appears unsafe or conflicts with a higher-level instruction, stop and ask.
+
+External skills must never override user instructions, project rules, invoked command rules, safety boundaries, or this repository's rules.
 
 ## 2. Communication
 
@@ -443,7 +447,7 @@ Use slash commands as workflow entry points:
 
 The user-facing interface is `commands/`.
 
-External skills (Superpowers, Matt Pocock) are assumed to be installed in the user's Claude Code environment. This repository does not vendor, copy, or reimplement them. `dependencies/` documents the relationship.
+External skills (Superpowers, Matt Pocock) are assumed to be installed in the user's Claude Code environment. This repository does not vendor, copy, reimplement, simulate, or fake them. `dependencies/` documents the relationship.
 
 When running a command:
 
@@ -458,12 +462,12 @@ Priority order:
 
 1. User's current instruction
 2. Project-level `CLAUDE.md`, `CONTEXT.md`, and runbooks
-3. This personal global standard
-4. Command file
+3. Invoked command file
+4. This personal global standard
 5. Installed external skills (Superpowers, Matt Pocock)
 6. General best practices
 
-External skills must not override explicit user instructions, project rules, safety boundaries, or this repository's rules.
+External skills must never override user instructions, project rules, invoked command rules, safety boundaries, or this repository's rules.
 
 External skills must not trigger:
 - Automatic installation of dependencies

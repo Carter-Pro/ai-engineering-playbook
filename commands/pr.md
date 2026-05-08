@@ -55,8 +55,8 @@ chore: ...
 This command prioritizes using installed external skills:
 
 - **Superpowers** for PR summarization, risk disclosure, and review readiness.
-- **Matt Pocock skills** for explaining type-level, API-level, and runtime behavior changes when applicable.
+- **Matt Pocock skills** for explaining type-level, API-level, and runtime behavior changes in TypeScript, JavaScript, React, frontend architecture, API typing, or type-level design when applicable.
 
-This command does not rewrite, copy, or substitute for these external skills.
+This command does not rewrite, copy, simulate, fake, or substitute for these external skills.
 If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.
 PRs should include verification evidence and call out remaining risks.

@@ -50,8 +50,8 @@ Do not modify code unless the user explicitly asks for planning plus implementat
 This command prioritizes using installed external skills:
 
 - **Superpowers** for implementation planning, risk control, verification design, and scope management.
-- **Matt Pocock skills** for TypeScript-aware planning when applicable.
+- **Matt Pocock skills** for planning in TypeScript, JavaScript, React, frontend architecture, API typing, or type-level design when applicable.
 
-This command does not rewrite, copy, or substitute for these external skills.
+This command does not rewrite, copy, simulate, fake, or substitute for these external skills.
 If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.
 The plan must respect existing project conventions and must not introduce new tools without approval.

@@ -58,7 +58,7 @@ This repository assumes the following external skills are already installed and 
 - **Superpowers** — agent methodology skills (thinking, planning, debugging, verification, release discipline)
 - **Matt Pocock skills** — TypeScript / code-quality methodology skills
 
-This repository does **not** vendor, copy, or reimplement these skills.
+This repository does **not** vendor, copy, reimplement, simulate, or fake these skills.
 
 `commands/` are workflow wrappers that use these installed skills. They do not duplicate the skill content.
 
@@ -115,6 +115,25 @@ cp -R templates ~/.claude/templates
 ```
 
 Do not overwrite user changes without review.
+
+## Post-install smoke test
+
+After installing into `~/.claude/`, start Claude Code in a test repository and run:
+
+```text
+/think classify this repository setup task
+/plan create a no-op plan for reviewing the repository structure
+```
+
+Expected behavior:
+
+- Claude Code recognizes the commands.
+- `/think` classifies risk and recommends next workflow.
+- `/think` does not modify files.
+- `/plan` creates a plan but does not modify files.
+- No dependencies are installed automatically.
+- No destructive command is executed.
+- If external skills are unavailable, Claude Code clearly degrades to the generic safe workflow instead of pretending they are available.
 
 ## Usage Policy
 

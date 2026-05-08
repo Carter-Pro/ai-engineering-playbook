@@ -21,6 +21,12 @@ release version 1.2.3
 - Never guess version numbers.
 - Never bypass failing checks.
 
+## Release Gate
+
+Before creating tags, pushing release commits, publishing artifacts, deploying, signing, notarizing, or distributing packages, stop and confirm explicit user authorization for that specific release action unless the user has already explicitly authorized that exact action in the current task.
+
+Reading the runbook, checking version state, preparing release notes, and running verification may proceed. Actual release actions require explicit approval.
+
 ## Process
 
 1. Confirm version or release target.
@@ -75,6 +81,6 @@ This command prioritizes using installed external skills:
 
 - **Superpowers** for release gating, explicit approval, verification, changelog review, and artifact safety.
 
-This command does not rewrite, copy, or substitute for these external skills.
+This command does not rewrite, copy, simulate, fake, or substitute for these external skills.
 If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.
 Release actions require explicit user authorization.

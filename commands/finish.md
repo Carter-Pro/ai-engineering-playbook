@@ -55,6 +55,6 @@ This command prioritizes using installed external skills:
 
 - **Superpowers** for clean closure, worktree awareness, unresolved issue tracking, and safe handoff.
 
-This command does not rewrite, copy, or substitute for these external skills.
+This command does not rewrite, copy, simulate, fake, or substitute for these external skills.
 If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.
-Do not silently discard or overwrite user work.
+Do not silently discard, overwrite, or clean up user-owned work.

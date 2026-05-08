@@ -55,8 +55,8 @@ For environment-dependent bugs:
 This command prioritizes using installed external skills:
 
 - **Superpowers** for diagnosis-first debugging and evidence-based fixes.
-- **Matt Pocock skills** for TypeScript-specific debugging when applicable.
+- **Matt Pocock skills** for debugging in TypeScript, JavaScript, React, frontend architecture, API typing, or type-level design when applicable.
 
-This command does not rewrite, copy, or substitute for these external skills.
+This command does not rewrite, copy, simulate, fake, or substitute for these external skills.
 If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.
 Do not guess-fix. Reproduce or diagnose before editing whenever possible.
