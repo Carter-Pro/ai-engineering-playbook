@@ -83,13 +83,32 @@ Files or directories requiring extra care:
 
 Default: do not release automatically.
 
+An explicit version or release target from the user allows release **preparation** only. Actual release actions require separate explicit user authorization for each action.
+
 Release runbook:
 
 ```text
 docs/runbooks/release.md
 ```
 
-Claude Code may run release only when the user explicitly provides a version or release target.
+### Preparation (allowed without additional authorization)
+
+- Reading the release runbook.
+- Checking version state and existing tags.
+- Preparing changelog or release notes.
+- Running tests and CI-equivalent checks.
+- Drafting the proposed release action list.
+
+### Actual release actions (stop and confirm explicit authorization)
+
+- Creating tags.
+- Pushing release commits or tags.
+- Publishing artifacts.
+- Deploying.
+- Signing or notarizing.
+- Distributing packages.
+
+These actions require explicit user authorization for the specific action, unless the user has already explicitly authorized that exact action in the current task.
 
 ## Dependency Policy
 

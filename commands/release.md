@@ -29,19 +29,28 @@ Reading the runbook, checking version state, preparing release notes, and runnin
 
 ## Process
 
+### Preflight and Preparation
+
 1. Confirm version or release target.
 2. Read project release runbook.
-3. Confirm current branch and clean working tree.
+3. Confirm current branch and working tree status.
 4. Check existing tags and version state.
 5. Check changelog or release notes requirements.
 6. Run required tests and CI-equivalent checks.
-7. Update version files if required.
-8. Create release commit if required.
-9. Create tag if required.
-10. Push according to runbook.
-11. Monitor release workflow.
-12. Publish release artifacts only as specified by runbook.
-13. Report final release status.
+7. Prepare the proposed release action list.
+8. Stop and ask for explicit authorization for the exact release actions.
+
+### Authorized Release Actions
+
+Only after explicit authorization for the exact action:
+
+1. Update version files if authorized.
+2. Create release commit if authorized.
+3. Create tag if authorized.
+4. Push release commit or tag if authorized.
+5. Monitor release workflow if authorized.
+6. Publish release artifacts if authorized and specified by the runbook.
+7. Report final release status.
 
 ## Stop Conditions
 

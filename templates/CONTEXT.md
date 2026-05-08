@@ -1,57 +1,60 @@
 # Project Context
 
-This file gives Claude Code stable project context.
-
-Keep it concise and current. Do not duplicate long documentation.
+This file gives Claude Code stable project context. Keep it concise and current.
+Do not duplicate long documentation. Link to canonical docs when possible.
 
 ## What This Project Is
 
-<!-- One or two paragraphs describing the product or library. -->
+<!-- Describe the product, service, library, app, or automation. -->
 
 ## Users and Use Cases
 
-<!-- Who uses it and what they expect. -->
+<!-- Who uses it, and what workflows matter most? -->
 
 ## Current Priorities
 
-<!-- Current engineering/product priorities. -->
+<!-- Current goals, active milestones, known near-term constraints. -->
 
 ## Architecture Summary
 
-<!-- Brief architecture overview. -->
+<!-- Short architecture overview. Avoid long design docs here. -->
 
 ## Key Modules
 
 ```text
-<!-- path/to/module - purpose -->
+<!-- Important directories/files and their purpose. -->
 ```
 
 ## Data Flow
 
-<!-- Briefly explain important data/control flow. -->
+<!-- Important data paths, state, persistence, queues, APIs, or external calls. -->
 
 ## External Dependencies
 
-<!-- External services, CLIs, devices, APIs, credentials requirements, signing, deployment targets.
-     Include: service names, endpoints, auth requirements, rate limits, required CLI versions. -->
+<!-- Document external services, CLIs, devices, APIs, credentials requirements,
+     local environment assumptions, and third-party systems. -->
 
 ## Testing Strategy
 
-<!-- Unit, integration, e2e, manual verification. -->
+<!-- Unit/integration/e2e split, required local checks, CI-only checks,
+     flaky tests, and test data constraints. -->
 
 ## Release Strategy
 
-<!-- How releases are prepared, tagged, packaged, deployed, or published. -->
+<!-- Release cadence, runbook location, versioning rules,
+     signing/notarization/package/deployment requirements.
+     Do not auto-release. -->
 
 ## Operational Risks
 
-<!-- Security, data loss, migration, device access, signing, CI flakiness, production risks.
-     Include: known flaky tests, CI vs local differences, deployment hazards, rollback strategy. -->
+<!-- Production risks, data risks, security/privacy concerns, migration risks,
+     deployment targets, rollback constraints, CI differences. -->
 
 ## Current Known Issues
 
-<!-- Known bugs, flaky tests, TODOs, migration status. -->
+<!-- Known bugs, limitations, flaky tests, environment-specific issues,
+     or temporary workarounds. -->
 
 ## Useful Links
 
-<!-- Docs, dashboards, CI, releases, issue trackers. -->
+<!-- Runbooks, dashboards, CI, deployment docs, issue trackers, API docs. -->
