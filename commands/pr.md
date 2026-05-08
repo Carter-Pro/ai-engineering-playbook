@@ -52,11 +52,13 @@ chore: ...
 
 ## Required external skills
 
-This command prioritizes using installed external skills:
+Primary: None
 
-- **Superpowers** for PR summarization, risk disclosure, and review readiness.
-- **Matt Pocock skills** for explaining type-level, API-level, and runtime behavior changes in TypeScript, JavaScript, React, frontend architecture, API typing, or type-level design when applicable.
+Optional:
 
-This command does not rewrite, copy, simulate, fake, or substitute for these external skills.
-If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.
+- `superpowers:requesting-code-review` — only for non-trivial, risky, broad, or reviewer-worthy changes.
+
+Do not default-run `superpowers:verification-before-completion`. Require or reference existing verification evidence instead.
 PRs should include verification evidence and call out remaining risks.
+This command does not rewrite, copy, simulate, fake, or substitute for external skills.
+If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.

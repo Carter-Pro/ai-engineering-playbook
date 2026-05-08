@@ -86,10 +86,11 @@ Stop and ask if:
 
 ## Required external skills
 
-This command prioritizes using installed external skills:
+Primary: None
 
-- **Superpowers** for release gating, explicit approval, verification, changelog review, and artifact safety.
+Optional: None
 
-This command does not rewrite, copy, simulate, fake, or substitute for these external skills.
-If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.
+Do not hard-map any external skill to release. Release is governed by this repository's release gates and the project's release runbook.
 Release actions require explicit user authorization.
+This command does not rewrite, copy, simulate, fake, or substitute for external skills.
+If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.

@@ -44,11 +44,10 @@ Never claim success without evidence.
 
 ## Required external skills
 
-This command prioritizes using installed external skills:
+Primary: `superpowers:verification-before-completion`
 
-- **Superpowers** for evidence-based verification and honest reporting.
-- **Matt Pocock skills** for typecheck, unit test, lint, and API-safety verification in TypeScript, JavaScript, React, frontend architecture, API typing, or type-level design when applicable.
+Optional: None. Do not add Matt Pocock skills by default.
 
-This command does not rewrite, copy, simulate, fake, or substitute for these external skills.
-If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.
 Verification claims must be backed by command output or explicit inspection evidence.
+This command does not rewrite, copy, simulate, fake, or substitute for external skills.
+If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.

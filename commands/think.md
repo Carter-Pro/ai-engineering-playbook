@@ -35,10 +35,17 @@ Ask only if ambiguity affects correctness, architecture, data, security, release
 
 ## Required external skills
 
-This command prioritizes using installed external skills:
+Primary: None
 
-- **Superpowers** for structured problem framing, risk classification, assumptions, and success criteria.
-- **Matt Pocock skills** when the task involves TypeScript, JavaScript, React, frontend architecture, API typing, or type-level design/debugging/verification.
+Optional:
 
-This command does not rewrite, copy, simulate, fake, or substitute for these external skills.
+- `superpowers:brainstorming` — only for unclear goals, tradeoffs, or design exploration.
+- `mattpocock:zoom-out` — only for unfamiliar TypeScript, JavaScript, React, or frontend areas.
+- `mattpocock:grill-with-docs` — only when project docs or domain language must challenge understanding.
+- `mattpocock:improve-codebase-architecture` — only for frontend architecture, refactorability, testability, or AI-navigability.
+- `mattpocock:prototype` — only for throwaway validation of UI, state, API typing, or design assumptions.
+
+Do not default to `superpowers:writing-plans`.
+Do not force a skill if the project is not in Matt Pocock's domain.
+This command does not rewrite, copy, simulate, fake, or substitute for external skills.
 If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.

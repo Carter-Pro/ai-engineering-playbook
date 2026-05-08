@@ -52,11 +52,18 @@ For environment-dependent bugs:
 
 ## Required external skills
 
-This command prioritizes using installed external skills:
+Primary: `superpowers:systematic-debugging`
 
-- **Superpowers** for diagnosis-first debugging and evidence-based fixes.
-- **Matt Pocock skills** for debugging in TypeScript, JavaScript, React, frontend architecture, API typing, or type-level design when applicable.
+Optional:
 
-This command does not rewrite, copy, simulate, fake, or substitute for these external skills.
-If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.
+- `mattpocock:diagnose` — alternative for hard TypeScript, JavaScript, React, or frontend bugs or performance regressions.
+- Choose exactly one TDD skill if the bug can be captured by a failing test:
+  - `superpowers:test-driven-development` for general TDD.
+  - `mattpocock:tdd` for TypeScript, JavaScript, React, frontend, or type-level TDD.
+- `superpowers:dispatching-parallel-agents` — only for multiple independent fault domains.
+- `mattpocock:zoom-out` — only when frontend or codebase context is missing.
+
+Do not run `superpowers:systematic-debugging` and `mattpocock:diagnose` by default at the same time.
 Do not guess-fix. Reproduce or diagnose before editing whenever possible.
+This command does not rewrite, copy, simulate, fake, or substitute for external skills.
+If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.

@@ -16,6 +16,7 @@ ai-engineering-playbook/
 ├── README.md
 ├── CLAUDE.md
 ├── commands/
+│   ├── start.md
 │   ├── think.md
 │   ├── plan.md
 │   ├── implement.md
@@ -37,7 +38,9 @@ ai-engineering-playbook/
 
 ### 3.1 Commands are workflow wrappers
 
-`commands/` is the user-facing interface. Users invoke commands such as `/think`, `/plan`, `/implement`, `/fix`, `/verify`, `/pr`, `/finish`, `/release`. Users should not need to remember or invoke external skill names directly.
+`commands/` is the user-facing interface. Users invoke commands such as `/start`, `/think`, `/plan`, `/implement`, `/fix`, `/verify`, `/pr`, `/finish`, `/release`. Users should not need to remember or invoke external skill names directly.
+
+Commands follow the natural flow start → think → plan → implement → fix/verify/pr/finish/release as appropriate, but are not required to be used mechanically.
 
 ### 3.2 External skill dependencies
 
@@ -59,9 +62,31 @@ This repository does **not**:
 
 If external skills are not available, `commands/` degrades to the generic safe workflow defined in `CLAUDE.md`. The agent must not simulate, fake, or reimplement missing external skills. It must report the degradation when it affects the workflow.
 
-### 3.5 Matt Pocock skill scope
+### 3.5 External skill reference names
+
+Commands reference external skills by their real installed names with namespace prefixes.
+
+**Superpowers skills:** `superpowers:brainstorming`, `superpowers:writing-plans`, `superpowers:executing-plans`, `superpowers:systematic-debugging`, `superpowers:test-driven-development`, `superpowers:verification-before-completion`, `superpowers:requesting-code-review`, `superpowers:finishing-a-development-branch`, `superpowers:subagent-driven-development`, `superpowers:dispatching-parallel-agents`, `superpowers:using-git-worktrees`
+
+**Matt Pocock skills:** `mattpocock:diagnose`, `mattpocock:grill-with-docs`, `mattpocock:improve-codebase-architecture`, `mattpocock:prototype`, `mattpocock:tdd`, `mattpocock:zoom-out`
 
 Matt Pocock skills apply only to: TypeScript, JavaScript, React, frontend architecture, API typing, or type-level design/debugging/verification. They do not apply to Swift, Python, CI, release, deployment, general backend, or non-frontend architecture unless the task explicitly involves the in-scope technologies.
+
+### 3.6 Conditional mapping policy
+
+Commands reference external skills **conditionally**, not mechanically:
+
+- Each command declares a primary skill (or None) and optional skills with trigger conditions.
+- Optional skills are only used when the trigger condition is met.
+- Where Superpowers and Matt Pocock overlap (e.g., TDD, debugging), choose one based on task domain. Do not default to running both.
+- If no skill fits, the command says None.
+- The full mapping is documented in `dependencies/README.md` and each `commands/*.md`.
+
+### 3.7 Verification and overlap rules
+
+- `/verify` is the primary place for `superpowers:verification-before-completion`.
+- `/pr`, `/finish`, and `/release` check for existing verification evidence rather than repeating verification by default.
+- Where Superpowers and Matt Pocock overlap, choose one. Do not run both by default.
 
 ## 4. Deprecated: Old Adapter Scheme
 
@@ -220,6 +245,7 @@ Reading the runbook, checking version state, preparing notes, and running verifi
 
 ## 21. Command Routing
 
+- `/start` — initialize project context, inspect the codebase, identify standards.
 - `/think` — classify risk and choose workflow.
 - `/plan` — create implementation plan for MEDIUM/HIGH work.
 - `/implement` — execute an approved or obvious plan.
@@ -229,9 +255,11 @@ Reading the runbook, checking version state, preparing notes, and running verifi
 - `/finish` — handle CI/review/merge/cleanup.
 - `/release <version>` — run explicit release workflow.
 
+Commands follow the natural flow start → think → plan → implement → fix/verify/pr/finish/release as appropriate.
+
 ## 22. External Skills in Commands
 
-When running a command: read the command file first, prioritize using installed external skills when available, degrade to generic safe workflow if unavailable, do not claim this repo implements external skills.
+When running a command: read the command file first, reference the declared primary and optional skills with their trigger conditions, prioritize using installed external skills when available, degrade to generic safe workflow if unavailable, do not claim this repo implements external skills. The full conditional mapping is documented in `dependencies/README.md` and each `commands/*.md`.
 
 External skills must not trigger: automatic dependency installation, automatic merge, automatic release, configuration overwriting, destructive operations without explicit user approval.
 

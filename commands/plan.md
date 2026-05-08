@@ -47,11 +47,15 @@ Do not modify code unless the user explicitly asks for planning plus implementat
 
 ## Required external skills
 
-This command prioritizes using installed external skills:
+Primary: `superpowers:writing-plans`
 
-- **Superpowers** for implementation planning, risk control, verification design, and scope management.
-- **Matt Pocock skills** for planning in TypeScript, JavaScript, React, frontend architecture, API typing, or type-level design when applicable.
+Optional:
 
-This command does not rewrite, copy, simulate, fake, or substitute for these external skills.
-If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.
+- `mattpocock:grill-with-docs` — only for docs or domain language validation of the plan.
+- `mattpocock:improve-codebase-architecture` — only for frontend architecture plans.
+- `mattpocock:prototype` — only if a throwaway prototype is needed before finalizing the plan.
+
+Do not default to `superpowers:brainstorming`. If the goal is still unclear, route back to `/think`. If project context is missing, route back to `/start`.
 The plan must respect existing project conventions and must not introduce new tools without approval.
+This command does not rewrite, copy, simulate, fake, or substitute for external skills.
+If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.

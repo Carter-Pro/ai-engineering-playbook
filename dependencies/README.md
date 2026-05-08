@@ -8,18 +8,54 @@ This directory documents the external skill dependencies that `commands/` expect
 
 Superpowers skills are external skills installed separately in the user's Claude Code environment. They provide methodology for structured thinking, planning, debugging, verification, and release discipline.
 
+**Installed skill names relevant to this repository:**
+
+| Skill | Purpose |
+|-------|---------|
+| `superpowers:brainstorming` | Unclear goals, tradeoffs, design exploration |
+| `superpowers:writing-plans` | Implementation planning for defined goals |
+| `superpowers:executing-plans` | Disciplined plan execution |
+| `superpowers:systematic-debugging` | Bug diagnosis and repair |
+| `superpowers:test-driven-development` | General TDD red-green-refactor |
+| `superpowers:verification-before-completion` | Evidence-based verification |
+| `superpowers:requesting-code-review` | PR review preparation for non-trivial changes |
+| `superpowers:finishing-a-development-branch` | Checklist reference for branch completion |
+| `superpowers:subagent-driven-development` | Complex work with independent sub-tasks |
+| `superpowers:dispatching-parallel-agents` | Multiple independent fault domains |
+| `superpowers:using-git-worktrees` | Isolated workspace (only when explicitly allowed) |
+
 - **Source:** external, installed separately in the user's Claude Code environment
 - **Status:** this repository does not vendor, copy, reimplement, simulate, or fake Superpowers skills
-- **Usage:** `commands/` will use installed Superpowers skills when available
+- **Usage:** `commands/` references Superpowers skills by name, purpose boundary, and trigger condition
 
 ### Matt Pocock Skills
 
 Matt Pocock skills are external skills installed separately in the user's Claude Code environment. They provide methodology for TypeScript correctness, type-driven design, and code quality.
 
+**Installed skill names relevant to this repository:**
+
+| Skill | Purpose |
+|-------|---------|
+| `mattpocock:zoom-out` | Codebase orientation, unfamiliar areas |
+| `mattpocock:grill-with-docs` | Docs/domain-language challenge |
+| `mattpocock:improve-codebase-architecture` | Architecture, refactorability, testability, AI-navigability |
+| `mattpocock:prototype` | Throwaway validation of UI/state/API typing/design assumptions |
+| `mattpocock:tdd` | TypeScript/JavaScript/React/frontend/type-level TDD |
+| `mattpocock:diagnose` | Hard TypeScript/JavaScript/React/frontend bugs or performance regressions |
+
 - **Source:** external, installed separately in the user's Claude Code environment
 - **Status:** this repository does not vendor, copy, reimplement, simulate, or fake Matt Pocock skills
 - **Scope:** TypeScript, JavaScript, React, frontend architecture, API typing, or type-level design/debugging/verification only
-- **Usage:** `commands/` will use installed Matt Pocock skills when applicable within scope
+- **Usage:** `commands/` references Matt Pocock skills by name, purpose boundary, and trigger condition, only when the task falls within scope
+
+## Conditional Use
+
+Commands reference external skills **conditionally**, not mechanically:
+
+- Each command declares a primary skill (or None) and optional skills.
+- Optional skills include trigger conditions — they are only used when the condition is met.
+- Where Superpowers and Matt Pocock overlap (e.g., TDD, debugging), choose one based on task domain. Do not default to running both.
+- If no skill fits, the command says None.
 
 ## Design Principle
 

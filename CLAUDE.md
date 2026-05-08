@@ -434,6 +434,7 @@ Any unexpected failure must stop the workflow and ask the user.
 
 Use slash commands as workflow entry points:
 
+- `/start` — initialize project context and inspect the codebase.
 - `/think` — classify risk and choose workflow.
 - `/plan` — prepare implementation plan.
 - `/implement` — execute an approved or obvious plan.

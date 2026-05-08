@@ -150,6 +150,7 @@ Post-review installation may copy the runtime files to `~/.claude/` only after e
 
 ## Commands
 
+- `/start` — initialize project context, inspect the codebase, identify standards.
 - `/think` — classify risk and choose workflow.
 - `/plan` — create implementation plan.
 - `/implement` — execute a clear plan.
@@ -158,3 +159,5 @@ Post-review installation may copy the runtime files to `~/.claude/` only after e
 - `/pr` — prepare commit and open PR.
 - `/finish` — handle CI, review, merge decision, cleanup.
 - `/release <version>` — run explicit release workflow.
+
+Commands follow the natural flow start → think → plan → implement → fix/verify/pr/finish/release as appropriate, but are not required to be used mechanically.
