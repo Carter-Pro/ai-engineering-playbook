@@ -33,3 +33,12 @@ Recommended next step:
 ```
 
 Ask for approval if the task becomes high-risk.
+
+## Underlying skills
+
+This command wraps:
+
+- `skills/superpowers.md` for disciplined execution, minimal coherent changes, and scope control.
+- `skills/matt-pocock.md` for type-safe implementation in TypeScript projects.
+
+Implementation must follow the approved plan and stop when scope or risk changes.

@@ -49,3 +49,12 @@ For environment-dependent bugs:
 
 ## Remaining Risk
 ```
+
+## Underlying skills
+
+This command wraps:
+
+- `skills/superpowers.md` for diagnosis-first debugging and evidence-based fixes.
+- `skills/matt-pocock.md` for TypeScript-specific debugging when applicable.
+
+Do not guess-fix. Reproduce or diagnose before editing whenever possible.

@@ -49,3 +49,12 @@ chore: ...
 - Do not hide failing checks.
 - Do not mark high-risk work as safe.
 - Do not request auto-merge unless the PR satisfies safe-auto-merge rules.
+
+## Underlying skills
+
+This command wraps:
+
+- `skills/superpowers.md` for PR summarization, risk disclosure, and review readiness.
+- `skills/matt-pocock.md` for explaining type-level, API-level, and runtime behavior changes when applicable.
+
+PRs should include verification evidence and call out remaining risks.

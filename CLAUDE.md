@@ -438,3 +438,27 @@ Use slash commands as workflow entry points:
 - `/pr` — prepare commit and open PR.
 - `/finish` — handle CI/review/merge/cleanup.
 - `/release <version>` — run release workflow.
+
+## 20. Commands and Skills
+
+The user-facing interface is `commands/`.
+
+The `skills/` directory contains reusable methodology adapters. Commands may apply these skills internally, but the user should not need to remember or invoke skill names directly.
+
+When running a command:
+
+1. Read the command file first.
+2. Read any referenced skill files.
+3. Apply project-level instructions and repository conventions.
+4. Follow the user's current instruction as the highest-priority task-specific input.
+
+Priority order:
+
+1. User's current instruction
+2. Project-level instructions
+3. Repository conventions
+4. Command file
+5. Skill adapter files
+6. General best practices
+
+Skills must not override explicit user instructions, project rules, or safety boundaries.

@@ -68,3 +68,11 @@ Stop and ask if:
 
 ## Follow-Up
 ```
+
+## Underlying skills
+
+This command wraps:
+
+- `skills/superpowers.md` for release gating, explicit approval, verification, changelog review, and artifact safety.
+
+Release actions require explicit user authorization.

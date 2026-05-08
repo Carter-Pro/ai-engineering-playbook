@@ -48,3 +48,11 @@ Human approval is required for:
 
 ## Final Notes
 ```
+
+## Underlying skills
+
+This command wraps:
+
+- `skills/superpowers.md` for clean closure, worktree awareness, unresolved issue tracking, and safe handoff.
+
+Do not silently discard or overwrite user work.

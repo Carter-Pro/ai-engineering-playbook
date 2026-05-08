@@ -44,3 +44,12 @@ Do not modify code unless the user explicitly asks for planning plus implementat
 - Do not introduce new dependencies without justification.
 - Do not propose broad refactors unless necessary.
 - For high-risk work, stop after the plan and wait for approval.
+
+## Underlying skills
+
+This command wraps:
+
+- `skills/superpowers.md` for implementation planning, risk control, verification design, and scope management.
+- `skills/matt-pocock.md` for TypeScript-aware planning when applicable.
+
+The plan must respect existing project conventions and must not introduce new tools without approval.

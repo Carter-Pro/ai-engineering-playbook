@@ -41,3 +41,12 @@ Use this command to verify the current changes.
 ```
 
 Never claim success without evidence.
+
+## Underlying skills
+
+This command wraps:
+
+- `skills/superpowers.md` for evidence-based verification and honest reporting.
+- `skills/matt-pocock.md` for typecheck, unit test, lint, and API-safety verification when applicable.
+
+Verification claims must be backed by command output or explicit inspection evidence.

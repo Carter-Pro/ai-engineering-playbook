@@ -32,3 +32,12 @@ Next:
 ```
 
 Ask only if ambiguity affects correctness, architecture, data, security, release, deployment, or user-visible behavior.
+
+## Underlying skills
+
+This command wraps:
+
+- `skills/superpowers.md` for structured problem framing, risk classification, assumptions, and success criteria.
+- `skills/matt-pocock.md` when the task involves TypeScript, frontend architecture, or type-level design.
+
+The user should not need to call these skills directly.
