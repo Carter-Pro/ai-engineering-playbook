@@ -69,10 +69,12 @@ Stop and ask if:
 ## Follow-Up
 ```
 
-## Underlying skills
+## Required external skills
 
-This command wraps:
+This command prioritizes using installed external skills:
 
-- `skills/superpowers.md` for release gating, explicit approval, verification, changelog review, and artifact safety.
+- **Superpowers** for release gating, explicit approval, verification, changelog review, and artifact safety.
 
+This command does not rewrite, copy, or substitute for these external skills.
+If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.
 Release actions require explicit user authorization.

@@ -439,26 +439,35 @@ Use slash commands as workflow entry points:
 - `/finish` — handle CI/review/merge/cleanup.
 - `/release <version>` — run release workflow.
 
-## 20. Commands and Skills
+## 20. Commands and External Skills
 
 The user-facing interface is `commands/`.
 
-The `skills/` directory contains reusable methodology adapters. Commands may apply these skills internally, but the user should not need to remember or invoke skill names directly.
+External skills (Superpowers, Matt Pocock) are assumed to be installed in the user's Claude Code environment. This repository does not vendor, copy, or reimplement them. `dependencies/` documents the relationship.
 
 When running a command:
 
 1. Read the command file first.
-2. Read any referenced skill files.
-3. Apply project-level instructions and repository conventions.
-4. Follow the user's current instruction as the highest-priority task-specific input.
+2. Prioritize using installed external skills (Superpowers, Matt Pocock) when available.
+3. If external skills are not available, degrade to the generic safe workflow defined in this file.
+4. Do not claim that this repository implements Superpowers or Matt Pocock skills.
+5. Apply project-level instructions and repository conventions.
+6. Follow the user's current instruction as the highest-priority input.
 
 Priority order:
 
 1. User's current instruction
-2. Project-level instructions
-3. Repository conventions
+2. Project-level `CLAUDE.md`, `CONTEXT.md`, and runbooks
+3. This personal global standard
 4. Command file
-5. Skill adapter files
+5. Installed external skills (Superpowers, Matt Pocock)
 6. General best practices
 
-Skills must not override explicit user instructions, project rules, or safety boundaries.
+External skills must not override explicit user instructions, project rules, safety boundaries, or this repository's rules.
+
+External skills must not trigger:
+- Automatic installation of dependencies
+- Automatic merge
+- Automatic release
+- Overwriting of local configuration
+- Destructive operations without explicit user approval

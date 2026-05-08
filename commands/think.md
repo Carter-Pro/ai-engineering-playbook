@@ -33,11 +33,12 @@ Next:
 
 Ask only if ambiguity affects correctness, architecture, data, security, release, deployment, or user-visible behavior.
 
-## Underlying skills
+## Required external skills
 
-This command wraps:
+This command prioritizes using installed external skills:
 
-- `skills/superpowers.md` for structured problem framing, risk classification, assumptions, and success criteria.
-- `skills/matt-pocock.md` when the task involves TypeScript, frontend architecture, or type-level design.
+- **Superpowers** for structured problem framing, risk classification, assumptions, and success criteria.
+- **Matt Pocock skills** when the task involves TypeScript, frontend architecture, or type-level design.
 
-The user should not need to call these skills directly.
+This command does not rewrite, copy, or substitute for these external skills.
+If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.

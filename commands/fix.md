@@ -50,11 +50,13 @@ For environment-dependent bugs:
 ## Remaining Risk
 ```
 
-## Underlying skills
+## Required external skills
 
-This command wraps:
+This command prioritizes using installed external skills:
 
-- `skills/superpowers.md` for diagnosis-first debugging and evidence-based fixes.
-- `skills/matt-pocock.md` for TypeScript-specific debugging when applicable.
+- **Superpowers** for diagnosis-first debugging and evidence-based fixes.
+- **Matt Pocock skills** for TypeScript-specific debugging when applicable.
 
+This command does not rewrite, copy, or substitute for these external skills.
+If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.
 Do not guess-fix. Reproduce or diagnose before editing whenever possible.

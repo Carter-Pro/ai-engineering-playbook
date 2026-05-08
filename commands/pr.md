@@ -50,11 +50,13 @@ chore: ...
 - Do not mark high-risk work as safe.
 - Do not request auto-merge unless the PR satisfies safe-auto-merge rules.
 
-## Underlying skills
+## Required external skills
 
-This command wraps:
+This command prioritizes using installed external skills:
 
-- `skills/superpowers.md` for PR summarization, risk disclosure, and review readiness.
-- `skills/matt-pocock.md` for explaining type-level, API-level, and runtime behavior changes when applicable.
+- **Superpowers** for PR summarization, risk disclosure, and review readiness.
+- **Matt Pocock skills** for explaining type-level, API-level, and runtime behavior changes when applicable.
 
+This command does not rewrite, copy, or substitute for these external skills.
+If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.
 PRs should include verification evidence and call out remaining risks.

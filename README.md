@@ -7,18 +7,18 @@ This repository is a personal AI engineering playbook.
 It provides a Claude Code-compatible global workflow structure, including:
 
 - `CLAUDE.md` — global operating rules and safety boundaries
-- `commands/` — user-facing workflow commands
-- `skills/` — underlying methodology adapters, including Superpowers and Matt Pocock-inspired practices
+- `commands/` — user-facing workflow commands that wrap external skills
+- `dependencies/` — documents external skill dependencies (this repo does not vendor them)
 - `templates/` — reusable project-level context templates
 - `docs/` — source standard and design notes
 
 The key design principle is:
 
-> Commands are the user interface. Skills are the underlying methodology.
+> Commands are the user interface. External skills are the underlying methodology.
 
-Users should normally invoke commands, not skills directly.
+Users should normally invoke commands, not external skill names directly.
 
-It currently uses Claude Code compatible files as the practical standard, but it is not intended to be Claude Code-only. Other AI coding agents may reuse or adapt the same `CLAUDE.md`, `commands/`, `skills/`, and `templates/` structure.
+It currently uses Claude Code compatible files as the practical standard, but it is not intended to be Claude Code-only. Other AI coding agents may reuse or adapt the same `CLAUDE.md`, `commands/`, `dependencies/`, and `templates/` structure.
 
 It is project-agnostic. It defines how an AI coding agent should reason, classify risk, ask for approval, create issues, manage branches, commit work, open PRs, verify changes, and handle releases.
 
@@ -46,30 +46,33 @@ Project-specific details such as build commands, test commands, architecture not
 - `README.md` — repository overview and usage guide.
 - `CLAUDE.md` — global operating rules for runtime use.
 - `commands/*.md` — user-facing slash command or agent command workflows.
-- `skills/*.md` — underlying methodology adapters (Superpowers, Matt Pocock) used by commands.
+- `dependencies/` — documents external skill dependencies; this repo does not vendor or reimplement them.
 - `templates/project-CLAUDE.md` — template for project-level agent rules.
 - `templates/CONTEXT.md` — template for project background and engineering context.
 - `docs/source-standard.md` — the full source standard used to generate this repository.
 
 ## External skill dependencies
 
-This playbook assumes the following methodology sources are available conceptually or installed separately where supported:
+This repository assumes the following external skills are already installed and available in the user's Claude Code environment:
 
-- Superpowers-style agent skills
-- Matt Pocock-inspired TypeScript / code-quality skills
+- **Superpowers** — agent methodology skills (thinking, planning, debugging, verification, release discipline)
+- **Matt Pocock skills** — TypeScript / code-quality methodology skills
 
-This repository does not vendor or copy third-party skill packages by default.
-Instead, it provides a local `skills/` adapter layer that documents how our commands should use those methods.
+This repository does **not** vendor, copy, or reimplement these skills.
+
+`commands/` are workflow wrappers that use these installed skills. They do not duplicate the skill content.
 
 The relationship is:
 
 ```text
-commands/     user-facing workflow entry points
-skills/       local adapters for external skill methodologies
-external      optional upstream skill packages or references
+commands/       personal workflow entry points (what you call)
+external        installed skills in the user environment (how it works)
+dependencies/   documents the dependency relationship (no code, no adapters)
 ```
 
-If an environment supports installing third-party skills directly, install them according to their upstream documentation first, then keep this repository's `skills/` files as the local wrapper and policy layer.
+If the external skills are not installed, `commands/` degrades to the generic safe workflow defined in `CLAUDE.md`.
+
+External skills must not override explicit user instructions, project-level `CLAUDE.md`, safety rules, or this repository's rules.
 
 ## Installation
 
@@ -92,7 +95,7 @@ Target installation layout after approval:
 ~/.claude/
   CLAUDE.md
   commands/
-  skills/
+  dependencies/
   templates/
 ```
 
@@ -107,7 +110,7 @@ Then copy files explicitly:
 ```bash
 cp CLAUDE.md ~/.claude/CLAUDE.md
 cp -R commands ~/.claude/commands
-cp -R skills ~/.claude/skills
+cp -R dependencies ~/.claude/dependencies
 cp -R templates ~/.claude/templates
 ```
 
@@ -122,7 +125,7 @@ First generation pass:
 1. Generate repository content only.
 2. Do not install to `~/.claude/`.
 3. Do not modify system-level configuration.
-4. Review `CLAUDE.md`, `commands/*.md`, `skills/*.md`, and templates before using them globally.
+4. Review `CLAUDE.md`, `commands/*.md`, `dependencies/`, and templates before using them globally.
 
 Post-review installation may copy the runtime files to `~/.claude/` only after explicit user approval and backup of existing local configuration.
 

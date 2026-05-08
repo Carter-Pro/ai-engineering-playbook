@@ -42,11 +42,13 @@ Use this command to verify the current changes.
 
 Never claim success without evidence.
 
-## Underlying skills
+## Required external skills
 
-This command wraps:
+This command prioritizes using installed external skills:
 
-- `skills/superpowers.md` for evidence-based verification and honest reporting.
-- `skills/matt-pocock.md` for typecheck, unit test, lint, and API-safety verification when applicable.
+- **Superpowers** for evidence-based verification and honest reporting.
+- **Matt Pocock skills** for typecheck, unit test, lint, and API-safety verification when applicable.
 
+This command does not rewrite, copy, or substitute for these external skills.
+If external skills are not available, degrade to the generic safe workflow defined in `CLAUDE.md`.
 Verification claims must be backed by command output or explicit inspection evidence.
