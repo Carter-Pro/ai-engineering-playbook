@@ -47,6 +47,7 @@ Commands follow the natural flow start → think → plan → implement → fix/
 Superpowers skills and Matt Pocock skills are **external dependencies** installed separately in the user's Claude Code environment.
 
 This repository does **not**:
+
 - vendor external skills
 - copy external skills
 - reimplement external skills
@@ -133,21 +134,25 @@ Do not ask for routine low-risk or medium-risk steps. Do ask before irreversible
 Classify every task: `LOW`, `MEDIUM`, `HIGH`, or `RELEASE`.
 
 ### LOW
+
 Safe, local, unlikely to affect production. Examples: docs, comments, formatting, non-production config, minor test changes, small CI fixes not touching release/deploy/secrets/signing.
 
 Allowed: modify, check, commit, open PR, auto-merge only if safe-automerge conditions are met. Issue: optional.
 
 ### MEDIUM
+
 Changes production code, scoped and reversible. Examples: features, bug fixes with clear scope, limited refactors, test coverage, build/CI changes not touching release/deploy/secrets/signing.
 
 Allowed: issue, branch, implement, verify, commit, open PR. Issue: required. Approval: required if scope expands or risk increases; always required before merge.
 
 ### HIGH
+
 May affect architecture, data, security, privacy, sensitive config, irreversible operations, external integrations, or production behavior at scale. Examples: auth, secrets, DB migrations, data deletion/backfill, major architecture, large refactors, broad dependency upgrades, deployment, release, production infrastructure, CI/CD involving deploy/release/secrets/signing/package/notarization.
 
 Allowed: investigate, draft plan, issue, branch if appropriate, implement only after approval. Issue: required. Approval: required before implementation when material, always before merge.
 
 ### RELEASE
+
 Publishing, tagging, packaging, deploying, distributing, releasing a version. Examples: `/release 1.2.3`, create tag, publish GitHub Release, deploy, sign/notarize, publish package.
 
 Rules: explicit version required, explicit authorization required, follow project release runbook, stop on any anomaly.
