@@ -6,111 +6,174 @@ let failures = 0;
 
 function fail(file, rule, detail) {
   console.error(`FAIL [${rule}] ${file}: ${detail}`);
-  failures++;
+  failures += 1;
 }
 
-// Collect all .md files, excluding node_modules and .git
 function collectMdFiles(dir, base) {
   const out = [];
+
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (entry.name === "node_modules" || entry.name === ".git") continue;
+    if (
+      entry.name === "node_modules" ||
+      entry.name === ".git" ||
+      entry.name === ".next" ||
+      entry.name === "dist" ||
+      entry.name === "build" ||
+      entry.name === "coverage"
+    ) {
+      continue;
+    }
+
     const full = path.join(dir, entry.name);
-    const rel = path.relative(base, full);
+    const rel = path.relative(base, full).replace(/\\/g, "/");
+
     if (entry.isDirectory()) {
       out.push(...collectMdFiles(full, base));
     } else if (entry.name.endsWith(".md")) {
       out.push({ rel, full });
     }
   }
-  return out;
+
+  return out.sort((a, b) => a.rel.localeCompare(b.rel));
+}
+
+function lineNumberForIndex(text, index) {
+  return text.slice(0, index).split("\n").length;
+}
+
+function nonEmptyLines(text) {
+  return text.split(/\r?\n/).filter((line) => line.trim().length > 0);
+}
+
+function isInsideCodeFence(text, index) {
+  const before = text.slice(0, index);
+  const fenceMatches = before.match(/^```/gm);
+  return Boolean(fenceMatches && fenceMatches.length % 2 === 1);
 }
 
 const mdFiles = collectMdFiles(ROOT, ROOT);
 
-// ---- 1. No escaped list markers ----
+// ---- 1. No escaped Markdown list markers anywhere outside code fences ----
+// This catches both normal broken lines and one-line compressed documents:
+//   1\. item
+//   \- item
+//   # /start ... 1\. Inspect ... \- Do not ...
 for (const { rel, full } of mdFiles) {
   const text = fs.readFileSync(full, "utf-8");
-  const lines = text.split("\n");
+  const escapedListPattern = /(?:^|\s)(\\\d+\\\.|\\-)(?=\s)/gm;
+  let match;
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-    if (/^\\\d+\\\./.test(line)) {
-      fail(rel, "escaped-list", `line ${i + 1}: escaped numbered list '${line.trim()}'`);
+  while ((match = escapedListPattern.exec(text)) !== null) {
+    const marker = match[1];
+    const markerIndex = match.index + match[0].indexOf(marker);
+
+    if (isInsideCodeFence(text, markerIndex)) {
+      continue;
     }
-    if (/^\\\- /.test(line)) {
-      fail(rel, "escaped-list", `line ${i + 1}: escaped unordered list '${line.trim()}'`);
-    }
+
+    fail(
+      rel,
+      "escaped-list-marker",
+      `line ${lineNumberForIndex(text, markerIndex)}: found escaped Markdown list marker '${marker}'`,
+    );
   }
 }
 
 // ---- 2. Fenced code blocks must be paired ----
+// Counts only fences that start a line, avoiding accidental inline triple-backticks.
 for (const { rel, full } of mdFiles) {
   const text = fs.readFileSync(full, "utf-8");
-  const matches = text.match(/```/g);
+  const matches = text.match(/^```/gm);
+
   if (matches && matches.length % 2 !== 0) {
-    fail(rel, "fence-pair", `unclosed fenced code block (${matches.length} markers)`);
+    fail(rel, "fence-pair", `unclosed fenced code block (${matches.length} opening/closing markers)`);
   }
 }
 
-// ---- 3. ATX headings must be on their own line ----
+// ---- 3. Markdown headings must not be compressed together on one physical line ----
+// Prettier cannot reliably recover a document that was serialized into one long line.
 for (const { rel, full } of mdFiles) {
   const text = fs.readFileSync(full, "utf-8");
-  const lines = text.split("\n");
+  const lines = text.split(/\r?\n/);
 
-  for (let i = 0; i < lines.length; i++) {
+  for (let i = 0; i < lines.length; i += 1) {
     const line = lines[i];
-    // Match lines that start with # heading followed by non-heading content
-    // Allow: "# Heading" alone, or "# Heading <!-- comment -->"
-    const m = line.match(/^(#{1,6}\s+[^#\s].*)$/);
-    if (m) {
-      const after = m[1];
-      // Split on heading pattern: look for text after the heading that starts another heading
-      // e.g. "# /fix Use this command" is bad — the heading spills into description
-      // Check if line starts a heading but also contains a second heading-like pattern
-      const headingCount = (after.match(/#{1,6}\s+\S+/g) || []).length;
-      if (headingCount >= 2) {
-        fail(rel, "heading-own-line", `line ${i + 1}: multiple headings on one line '${line.trim()}'`);
-      }
+
+    if (!line.trimStart().startsWith("#")) {
+      continue;
+    }
+
+    const headingMatches = line.match(/(?:^|\s)#{1,6}\s+\S+/g) || [];
+
+    if (headingMatches.length > 1) {
+      fail(
+        rel,
+        "multiple-headings-one-line",
+        `line ${i + 1}: contains ${headingMatches.length} heading markers on one line`,
+      );
     }
   }
 }
 
-// ---- 4. No .md file compressed to a single line ----
-// A healthy .md file has multiple lines. Single-line .md files are likely corrupted.
+// ---- 4. No Markdown file should be compressed into one non-empty line ----
 for (const { rel, full } of mdFiles) {
   const text = fs.readFileSync(full, "utf-8");
-  const lines = text.split("\n");
-  if (lines.length <= 1) {
-    fail(rel, "single-line", `file is compressed to ${lines.length} line(s)`);
+  const count = nonEmptyLines(text).length;
+
+  if (count <= 1) {
+    fail(rel, "single-non-empty-line", `file has only ${count} non-empty line(s)`);
   }
 }
 
-// ---- 5. Each commands/*.md first line must be '# /command-name' ----
+// ---- 5. Each commands/*.md first line must be exactly '# /command-name' ----
 for (const { rel, full } of mdFiles) {
-  if (!rel.startsWith("commands/")) continue;
+  if (!rel.startsWith("commands/")) {
+    continue;
+  }
+
   const text = fs.readFileSync(full, "utf-8");
-  const firstLine = text.split("\n")[0].trim();
+  const firstLine = text.split(/\r?\n/)[0].trim();
   const fname = path.basename(rel, ".md");
   const expected = `# /${fname}`;
+
   if (firstLine !== expected) {
     fail(rel, "cmd-heading", `first line '${firstLine}' expected '${expected}'`);
   }
 }
 
-// ---- 6. Each commands/*.md must have at least 20 lines ----
+// ---- 6. Each commands/*.md must have enough non-empty structure ----
+// Count non-empty lines, not physical split lines, so a trailing newline cannot hide compression.
 for (const { rel, full } of mdFiles) {
-  if (!rel.startsWith("commands/")) continue;
+  if (!rel.startsWith("commands/")) {
+    continue;
+  }
+
   const text = fs.readFileSync(full, "utf-8");
-  const count = text.split("\n").length;
+  const count = nonEmptyLines(text).length;
+
   if (count < 20) {
-    fail(rel, "cmd-short", `only ${count} lines (minimum 20)`);
+    fail(rel, "cmd-short", `only ${count} non-empty line(s), minimum 20`);
   }
 }
 
-// ---- Result ----
-if (failures > 0) {
-  console.error(`\n${failures} check(s) failed.`);
-  process.exit(1);
-} else {
-  console.log("All Markdown format checks passed.");
+// ---- 7. Commands should contain multiple section headings ----
+// This is still a format/structure check, not a content-policy check.
+for (const { rel, full } of mdFiles) {
+  if (!rel.startsWith("commands/")) {
+    continue;
+  }
+
+  const text = fs.readFileSync(full, "utf-8");
+  const headingCount = (text.match(/^#{1,6}\s+\S+/gm) || []).length;
+
+  if (headingCount < 3) {
+    fail(rel, "cmd-few-headings", `only ${headingCount} heading(s), expected at least 3`);
+  }
 }
+
+if (failures > 0) {
+  console.error(`\n${failures} Markdown format check(s) failed.`);
+  process.exit(1);
+}
+
+console.log(`All Markdown format checks passed (${mdFiles.length} file(s)).`);
