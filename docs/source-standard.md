@@ -264,7 +264,7 @@ Commands follow the natural flow start → think → plan → implement → fix/
 
 ## 22. External Skills in Commands
 
-When running a command: read the command file first, reference the declared primary and optional skills with their trigger conditions, use installed external skills only when the invoked command references them and the task matches their stated trigger conditions, degrade to the generic safe workflow if unavailable, do not claim this repo implements external skills. The full conditional mapping is documented in `dependencies/README.md` and each `commands/*.md`.
+When running a command: read the command file first, reference only the declared primary and optional skills with their trigger conditions, use installed external skills only when the invoked command references them and the task matches their stated trigger conditions, degrade to the generic safe workflow if unavailable, and do not claim this repo implements external skills. The full conditional mapping is documented in `dependencies/README.md` and each `commands/*.md`.
 
 External skills must not trigger: automatic dependency installation, automatic merge, automatic release, configuration overwriting, destructive operations without explicit user approval.
 

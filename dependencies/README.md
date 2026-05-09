@@ -30,7 +30,7 @@ Superpowers skills are external skills installed separately in the user's Claude
 
 ### Matt Pocock Skills
 
-Matt Pocock skills are external skills installed separately in the user's Claude Code environment. They provide methodology for TypeScript, JavaScript, React, frontend architecture, API typing, and type-level design/debugging/verification.
+Matt Pocock skills are external skills installed separately in the user's Claude Code environment. They provide methodology for TypeScript correctness, JavaScript/React/frontend work, API typing, type-driven design, and type-level code quality.
 
 **Installed skill names relevant to this repository:**
 
