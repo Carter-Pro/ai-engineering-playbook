@@ -44,6 +44,9 @@ Optional:
   - `superpowers:test-driven-development` for general TDD.
   - `mattpocock:tdd` for TypeScript, JavaScript, React, frontend, or type-level TDD.
 - `mattpocock:prototype` — only for throwaway frontend, type, or API validation.
+
+Throwaway prototypes must not be merged into production code unless explicitly converted through the normal implementation workflow.
+
 - `superpowers:subagent-driven-development` — only for complex work with independent sub-tasks.
 - `superpowers:using-git-worktrees` — only when explicitly allowed or project-required.
 

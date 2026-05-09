@@ -61,7 +61,7 @@ Optional:
   - `superpowers:test-driven-development` for general TDD.
   - `mattpocock:tdd` for TypeScript, JavaScript, React, frontend, or type-level TDD.
 - `superpowers:dispatching-parallel-agents` — only for multiple independent fault domains.
-- `mattpocock:zoom-out` — only when frontend or codebase context is missing.
+- `mattpocock:zoom-out` — only when TypeScript, JavaScript, React, or frontend codebase context is missing.
 
 Do not run `superpowers:systematic-debugging` and `mattpocock:diagnose` by default at the same time.
 

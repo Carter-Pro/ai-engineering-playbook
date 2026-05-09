@@ -453,7 +453,7 @@ External skills (Superpowers, Matt Pocock) are assumed to be installed in the us
 When running a command:
 
 1. Read the command file first.
-2. Prioritize using installed external skills (Superpowers, Matt Pocock) when available.
+2. Use installed external skills only when the invoked command references them and the task matches their stated trigger conditions.
 3. If external skills are not available, degrade to the generic safe workflow defined in this file.
 4. Do not claim that this repository implements Superpowers or Matt Pocock skills.
 5. Apply project-level instructions and repository conventions.

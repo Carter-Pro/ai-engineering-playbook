@@ -56,7 +56,7 @@ Project-specific details such as build commands, test commands, architecture not
 This repository assumes the following external skills are already installed and available in the user's Claude Code environment:
 
 - **Superpowers** — agent methodology skills (thinking, planning, debugging, verification, release discipline)
-- **Matt Pocock skills** — TypeScript / code-quality methodology skills
+- **Matt Pocock skills** — TypeScript, JavaScript, React, frontend architecture, API typing, and type-level methodology skills
 
 This repository does **not** vendor, copy, reimplement, simulate, or fake these skills.
 
