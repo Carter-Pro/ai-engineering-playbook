@@ -1,131 +1,40 @@
-# Project Claude Code Instructions
+# [Project Name]
 
-This file contains project-specific instructions for Claude Code.
+## Overview
 
-It extends the personal global Claude Code standard. If there is a conflict, follow the stricter rule.
-
-## Project Overview
-
-<!-- Describe what this project does. -->
+<!-- One-sentence description of what this project does -->
 
 ## Tech Stack
 
-<!-- Languages, frameworks, package managers, platforms. -->
+- Language:
+- Framework:
+- Database:
+- Test Framework:
 
-## Repository Structure
+## Directory Structure
 
-```text
-<!-- Add important directories and their purpose. -->
+<!-- Key directories only, 3–5 lines is enough -->
+
+```
+src/        # Application source code
+tests/      # Test files
+docs/       # Documentation
 ```
 
-## Rule Priority
+## Development Conventions
 
-Project-level rules are more specific than the personal global standard and take precedence. However, project-level rules must not bypass:
+- Branch naming: `feat/`, `fix/`, `chore/`, `refactor/`
+- Commit format: `type(scope): description` (English only)
+- Code style: *(inferred from project config files — no need to repeat here)*
+- Special constraints: *(if any)*
 
-- Explicit user instructions
-- Safety boundaries
-- Approval gates
-- Release gates
+## Test Conventions
 
-## Common Commands
+- Test file locations:
+- Run tests:
+- Coverage requirement: *(if any)*
 
-Use these project-defined commands for verification and development:
+## Project-Specific Risks
 
-```bash
-# Build
-# Test
-# Lint
-# Format
-# CI-equivalent check
-# Package
-```
-
-## Workflow Entrypoints
-
-Claude Code commands live in:
-
-```text
-.claude/commands/
-```
-
-Recommended flow:
-
-- `/think` for task classification.
-- `/plan` for medium/high-risk planning.
-- `/implement` for implementation.
-- `/fix` for bug fixes.
-- `/verify` for verification.
-- `/pr` for PR creation.
-- `/finish` for PR completion.
-- `/release <version>` for explicit releases.
-
-## Risk Notes
-
-High-risk areas in this project:
-
-- <!-- e.g. auth, payment, database migrations, signing, deployment -->
-
-Files or directories requiring extra care:
-
-```text
-<!-- Add paths -->
-```
-
-## Testing Policy
-
-<!-- Explain unit/integration/e2e split and what must be run before PR. -->
-
-## CI/CD Policy
-
-<!-- Explain CI workflows and which changes require approval. -->
-
-## Release Policy
-
-Default: do not release automatically.
-
-An explicit version or release target from the user allows release **preparation** only. Actual release actions require separate explicit user authorization for each action.
-
-Release runbook:
-
-```text
-docs/runbooks/release.md
-```
-
-### Preparation (allowed without additional authorization)
-
-- Reading the release runbook.
-- Checking version state and existing tags.
-- Preparing changelog or release notes.
-- Running tests and CI-equivalent checks.
-- Drafting the proposed release action list.
-
-### Actual release actions (stop and confirm explicit authorization)
-
-- Creating tags.
-- Pushing release commits or tags.
-- Publishing artifacts.
-- Deploying.
-- Signing or notarizing.
-- Distributing packages.
-
-These actions require explicit user authorization for the specific action, unless the user has already explicitly authorized that exact action in the current task.
-
-## Dependency Policy
-
-<!-- Explain when dependencies can be added or upgraded. -->
-
-## Code Style
-
-<!-- Project-specific naming, formatting, architecture, and style rules. -->
-
-## Known Pitfalls
-
-<!-- Document flaky tests, external tools, local environment requirements, CI differences. -->
-
-## External Skill Dependencies
-
-This project may rely on external skills already installed in the user's Claude Code environment.
-
-Do not vendor, copy, reimplement, simulate, or fake external skills in this project.
-
-If external skills are unavailable, fall back to the generic safe workflow defined by the global standard and this project's local rules.
+<!-- Which operations in this project require extra caution -->
+<!-- Examples: migrations, external API calls, config changes -->

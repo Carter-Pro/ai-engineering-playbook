@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx playwright*)",
+      "Bash(pytest*)",
+      "Bash(jest*)",
+      "Bash(vitest*)"
+    ],
+    "deny": []
+  }
+}
