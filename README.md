@@ -150,7 +150,7 @@ claude mcp add playwright npx @playwright/mcp@latest
 ### Fetch MCP（网页内容获取）
 
 ```bash
-claude mcp add fetch npx @anthropic-ai/mcp-server-fetch
+claude mcp add fetch -- uvx mcp-server-fetch
 ```
 
 ### Context7（实时文档查询）
